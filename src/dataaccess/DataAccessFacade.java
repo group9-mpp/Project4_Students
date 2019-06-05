@@ -1,5 +1,6 @@
 package dataaccess;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,7 +23,17 @@ public class DataAccessFacade implements DataAccess {
 		BOOKS, MEMBERS, USERS;
 	}
 
-	public static final String OUTPUT_DIR = System.getProperty("user.dir") + "\\src\\dataaccess\\storage";
+	static String fileSeparator = "\\";
+	
+	static {
+		  String separator = File.separator;
+				  if(separator.equalsIgnoreCase("/")) {
+					  fileSeparator = separator;
+					  
+				  }
+	 }
+	  
+    public static final String OUTPUT_DIR = System.getProperty("user.dir") + fileSeparator +"src"+fileSeparator+ "dataaccess" +fileSeparator+"storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 
 	private void saveMember(LibraryMember member) {
@@ -36,9 +47,9 @@ public class DataAccessFacade implements DataAccess {
 	public void saveNewMember(LibraryMember member) throws AddMemberException {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
-		if(!mems.containsKey(memberId)) {
+		if (!mems.containsKey(memberId)) {
 			saveMember(member);
-		}else {
+		} else {
 			throw new AddMemberException("A Member has this ID already!");
 		}
 	}

@@ -1,5 +1,6 @@
 package business;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class SystemController implements ControllerInterface {
 		HashMap<String, Book> booksMap = da.readBooksMap();
 		for (Map.Entry<String, Book> entry : booksMap.entrySet()) {
 		    Book value = entry.getValue();
-		    System.out.println();
+		    System.out.println("NumberBook: " + value.getNumCopies());
 		    // ...
 		}
 		HashMap<String,LibraryMember> memberMap = da.readMemberMap();
@@ -84,6 +85,18 @@ public class SystemController implements ControllerInterface {
 public static void main(String[] args) {
 	SystemController c = new SystemController();
 	try {
+		String ret = "";
+		ret = File.separator;
+		ret = System.getProperty("file.separator");
+		ret = String.valueOf(File.separatorChar);
+		
+		System.out.println("Current OS file separator = " + ret);
+		
+		String filePath = "test" + ret + "dev2qa.txt";
+		
+		System.out.println("filePath = " + filePath);
+		
+		
 		CheckoutRecord checkoutRecord = c.checkout( "1002", "23-11451");
 		System.out.println("checkoutRecord: " + checkoutRecord);
 	
