@@ -48,6 +48,11 @@ public class SystemController implements ControllerInterface {
 	public CheckoutRecord checkout(String id, String isbn) throws CheckoutException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, Book> booksMap = da.readBooksMap();
+		for (Map.Entry<String, Book> entry : booksMap.entrySet()) {
+		    Book value = entry.getValue();
+		    System.out.println();
+		    // ...
+		}
 		HashMap<String,LibraryMember> memberMap = da.readMemberMap();
 		if(!memberMap.containsKey(id)) {
 			throw new CheckoutException("ID " + id + " not found");
@@ -69,7 +74,7 @@ public class SystemController implements ControllerInterface {
 		CheckoutEntry checkoutEntry = new CheckoutEntry( bookCopy, checkoutRecord);
 		checkoutRecord.addCheckoutEntry(checkoutEntry);
 		member.setCheckoutRecord(checkoutRecord);
-		da.saveNewMember(member);
+		da.updateMember(member);
 		da.updateBook(book);
 		return checkoutRecord;
 		
