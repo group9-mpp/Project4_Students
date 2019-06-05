@@ -96,12 +96,12 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
 			DataAccessFacade dataAccessObject = new DataAccessFacade();
 			try {
 				dataAccessObject.saveNewMember(newMember);
-				System.out.println("Member Addess Successfully");
+				System.out.println("Member Added Successfully");
 			} catch (AddMemberException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				System.out.println(e.getMessage());
 			}
+		}else {
+			System.out.println("Please check your values for errors");
 		}
 
 	}
