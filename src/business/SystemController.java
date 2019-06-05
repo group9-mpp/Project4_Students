@@ -3,6 +3,7 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import business.Book;
 import dataaccess.Auth;
@@ -17,13 +18,15 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
 		if(!map.containsKey(id)) {
-			throw new LoginException("ID " + id + " not found");
+			throw new LoginException("ID " + id + " not found.");
 		}
 		String passwordFound = map.get(id).getPassword();
 		if(!passwordFound.equals(password)) {
-			throw new LoginException("Password incorrect");
+			throw new LoginException("Password incorrect.");
 		}
 		currentAuth = map.get(id).getAuthorization();
+		//
+		//it's supposed to now show a new window
 		
 	}
 	@Override
