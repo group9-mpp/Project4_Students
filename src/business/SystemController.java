@@ -41,6 +41,35 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
+	@Override
+	public void checkout(String id, String isbn) throws CheckoutException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> booksMap = da.readBooksMap();
+		HashMap<String,LibraryMember> memberMap = da.readMemberMap();
+		if(!memberMap.containsKey(id)) {
+			throw new CheckoutException("ID " + id + " not found");
+		}
+		LibraryMember member = memberMap.get(id);
+		if(!booksMap.containsKey(isbn)) {
+			throw new CheckoutException("ISBN " + isbn + " not found");
+		}
+		Book book = booksMap.get(isbn);
+		if(!book.isAvailable()) {
+			throw new CheckoutException("ISBN "+ isbn + " is not available");
+		}
+		
+		BookCopy bookCopy = book.getNextAvailableCopy();
+		bookCopy.changeAvailability();
+		book.updateCopies(bookCopy);
+		CheckoutRecord checkoutRecord = member.getCheckoutRecord();
+		CheckoutEntry checkoutEntry = new CheckoutEntry( bookCopy, checkoutRecord);
+		checkoutRecord.addCheckoutEntry(checkoutEntry);
+		member.setCheckoutRecord(checkoutRecord);
+		da.updateMember(member);
+		//da.updateBook(book);
+		
+		
+	}
 	
 	
 }
