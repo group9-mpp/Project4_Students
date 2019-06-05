@@ -32,7 +32,7 @@ public class CheckoutRecord implements Serializable{
 
 	@Override
 	public String toString() {
-		return "CheckoutRecord [checkoutEntries=" + checkoutEntries + ", owner=" + owner + "]";
+		return "CheckoutRecord [checkoutEntries=" + checkoutEntries +"]";
 	}
 
 

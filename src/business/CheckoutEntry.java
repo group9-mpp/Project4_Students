@@ -41,7 +41,7 @@ public class CheckoutEntry implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "CheckoutEntry [checkoutDate=" + checkoutDate + ", dueDate=" + dueDate + ", bookCopy=" + bookCopy + "]";
+		return "\nCheckoutEntry [checkoutDate=" + checkoutDate + ", dueDate=" + dueDate + ", book=" + bookCopy.getBook().getIsbn() + " copy " + bookCopy.getCopyNum()+ "]";
 	}
 	
 	

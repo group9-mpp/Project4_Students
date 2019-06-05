@@ -65,13 +65,27 @@ public class SystemController implements ControllerInterface {
 		bookCopy.changeAvailability();
 		book.updateCopies(bookCopy);
 		CheckoutRecord checkoutRecord = member.getCheckoutRecord();
+
 		CheckoutEntry checkoutEntry = new CheckoutEntry( bookCopy, checkoutRecord);
 		checkoutRecord.addCheckoutEntry(checkoutEntry);
 		member.setCheckoutRecord(checkoutRecord);
-		da.updateMember(member);
+		da.saveNewMember(member);
 		da.updateBook(book);
 		return checkoutRecord;
 		
+		
+	}
+	
+public static void main(String[] args) {
+	SystemController c = new SystemController();
+	try {
+		CheckoutRecord checkoutRecord = c.checkout( "1002", "23-11451");
+		System.out.println("checkoutRecord: " + checkoutRecord);
+	
+	} catch (CheckoutException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 		
 	}
 	
