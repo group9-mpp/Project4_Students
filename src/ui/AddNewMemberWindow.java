@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.sun.xml.internal.ws.util.StringUtils;
 
+import business.AddMemberException;
 import business.Address;
 import business.LibraryMember;
 import business.SystemController;
@@ -93,10 +94,16 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
 			LibraryMember newMember = new LibraryMember(memberID, firstName,
 					lastName, phonenumber, memberAddress);
 			DataAccessFacade dataAccessObject = new DataAccessFacade();
-			dataAccessObject.saveNewMember(newMember);
+			try {
+				dataAccessObject.saveNewMember(newMember);
+				System.out.println("Member Addess Successfully");
+			} catch (AddMemberException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println(e.getMessage());
+			}
 		}
 
-//		System.out.println();
 	}
 
 	@Override
