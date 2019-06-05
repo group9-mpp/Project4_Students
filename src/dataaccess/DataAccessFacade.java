@@ -24,12 +24,17 @@ public class DataAccessFacade implements DataAccess {
 	public static final String OUTPUT_DIR = System.getProperty("user.dir") + "\\src\\dataaccess\\storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 
-	// implement: other save operations
-	public void saveNewMember(LibraryMember member) {
+	
+	private void saveMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);
+	}
+	
+	// implement: other save operations
+	public void saveNewMember(LibraryMember member) {
+		saveMember(member);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -164,10 +169,10 @@ public class DataAccessFacade implements DataAccess {
 	public void updateMember(LibraryMember member) {
 		// this method is called after a new checkout entry
 		// has been created and added to a checkout record for a member. 
-		//So the member's record is saved
-		
-		saveToStorage(StorageType.MEMBERS, member);
-
+		//So the member's record is saved.
+		//LOGIC - First get all members, then get the member with the same ID and update the record
+		//before saving all again
+		saveMember(member);
 	}
 
 	@Override

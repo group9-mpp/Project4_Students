@@ -2,7 +2,12 @@ package ui;
 
 import java.io.IOException;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
+import business.Address;
+import business.LibraryMember;
 import business.SystemController;
+import dataaccess.DataAccessFacade;
 import dataaccess.SiteFeatures;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -66,6 +71,11 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
 		}
 	}
 
+	private boolean entriesAreValid(String memberID, String firstName, String lastName, String street, String city,
+			String state, String zipcode, String phonenumber) {
+		return true;
+	}
+
 	public void addMember(ActionEvent event) {
 		String memberID = txtMemberID.getText().trim();
 		String firstName = txtFirstName.getText().trim();
@@ -75,6 +85,16 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
 		String state = txtState.getText().trim();
 		String zipcode = txtZip.getText().trim();
 		String phonenumber = txtPhone.getText().trim();
+		boolean entriesAreValid = entriesAreValid(memberID, firstName, lastName, street, city, state, zipcode,
+				phonenumber);
+
+		if (entriesAreValid) {
+			Address memberAddress = new Address(street, city, state, zipcode);
+			LibraryMember newMember = new LibraryMember(memberID, firstName,
+					lastName, phonenumber, memberAddress);
+			DataAccessFacade dataAccessObject = new DataAccessFacade();
+			dataAccessObject.saveNewMember(newMember);
+		}
 
 //		System.out.println();
 	}
