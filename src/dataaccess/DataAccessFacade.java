@@ -170,4 +170,10 @@ public class DataAccessFacade implements DataAccess {
 
 	}
 
+	@Override
+	public void updateBook(Book book) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
