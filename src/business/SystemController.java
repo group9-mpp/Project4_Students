@@ -45,7 +45,7 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 	@Override
-	public void checkout(String id, String isbn) throws CheckoutException {
+	public CheckoutRecord checkout(String id, String isbn) throws CheckoutException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, Book> booksMap = da.readBooksMap();
 		HashMap<String,LibraryMember> memberMap = da.readMemberMap();
@@ -69,7 +69,8 @@ public class SystemController implements ControllerInterface {
 		checkoutRecord.addCheckoutEntry(checkoutEntry);
 		member.setCheckoutRecord(checkoutRecord);
 		da.updateMember(member);
-		//da.updateBook(book);
+		da.updateBook(book);
+		return checkoutRecord;
 		
 		
 	}

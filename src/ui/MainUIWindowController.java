@@ -52,7 +52,7 @@ public class MainUIWindowController {
 	public void showFeature(ActionEvent event) {
 //		String requestedAction = cmbFeaturesDropDown.getValue();
 		// call feature
-		System.out.println("James!!!");
+		CheckoutWindow.INSTANCE.init();
 	}
 	
 	public MainUIWindowController() {

@@ -1,6 +1,8 @@
 package ui;
 
+import business.CheckoutEntry;
 import business.CheckoutException;
+import business.CheckoutRecord;
 import business.ControllerInterface;
 import business.SystemController;
 import javafx.event.ActionEvent;
@@ -79,9 +81,13 @@ public class CheckoutWindow extends Stage implements LibWindow {
         	public void handle(ActionEvent e) {
         		try {
         			ControllerInterface c = new SystemController();
-        			c.checkout(idTextField.getText().trim(), isbnField.getText().trim());
+        			CheckoutRecord checkoutRecord = c.checkout(idTextField.getText().trim(), isbnField.getText().trim());
         			messageBar.setFill(Start.Colors.green);
              	    messageBar.setText("Checkout successful");
+             	    System.out.println("checkout entries");
+             	    for (CheckoutEntry checkoutEntry : checkoutRecord.getCheckoutEntries()) {
+						System.out.println(checkoutEntry);
+					}
         		} catch(CheckoutException ex) {
         			messageBar.setFill(Start.Colors.red);
         			messageBar.setText("Error! " + ex.getMessage());
@@ -105,7 +111,7 @@ public class CheckoutWindow extends Stage implements LibWindow {
         Scene scene = new Scene(grid);
         scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
         setScene(scene);
-        
+        show();
     }
 	
 	
