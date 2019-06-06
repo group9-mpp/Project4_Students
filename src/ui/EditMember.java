@@ -18,23 +18,46 @@ import javafx.scene.layout.Pane;
 
 public class EditMember extends BaseWindow {
 
-	private String id;
+	private Start mainApp;
+	private String memberID;
+	TextField txtMemberID = new TextField();
+	TextField txtFirstName = new TextField();
+	TextField txtLastName = new TextField();
+	TextField txtStreet = new TextField();
+	TextField txtCity = new TextField();
+	TextField txtState = new TextField();
+	TextField txtZip = new TextField();
+	TextField txtPhone = new TextField();
 
-	public EditMember(Start mainApp, String id) {
+	public EditMember(Start mainApp, String memberID) {
 		super(mainApp);
-		this.id = id;
+		this.memberID = memberID;
 	}
+
+	
+	
+	private void populateFields() {
+		ControllerInterface sc= new SystemController();
+		LibraryMember member = sc.getMember(memberID);
+		txtMemberID.setText(member.getMemberId());
+		txtFirstName.setText(member.getFirstName());
+		txtLastName.setText(member.getLastName());
+		txtPhone.setText(member.getTelephone());
+
+		Address memberAddress = member.getAddress();
+		txtStreet.setText(memberAddress.getStreet());
+		txtCity.setText(memberAddress.getCity());
+		txtState.setText(memberAddress.getState());
+		txtZip.setText(memberAddress.getZip());
+
+	}
+	
+	
 
 	protected Pane getScreen() {
 
-		TextField txtMemberID = new TextField();
-		TextField txtFirstName = new TextField();
-		TextField txtLastName = new TextField();
-		TextField txtStreet = new TextField();
-		TextField txtCity = new TextField();
-		TextField txtState = new TextField();
-		TextField txtZip = new TextField();
-		TextField txtPhone = new TextField();
+
+		txtMemberID.setDisable(true);
 
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
@@ -68,12 +91,13 @@ public class EditMember extends BaseWindow {
 		grid.add(txtPhone, 1, 7);
 
 		Button btnSave = new Button("Save");
+		populateFields();
 
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				try {
-					String memberID = txtMemberID.getText().trim();
+//					String memberID = txtMemberID.getText().trim();
 					String firstName = txtFirstName.getText().trim();
 					String lastName = txtLastName.getText().trim();
 					String street = txtStreet.getText().trim();

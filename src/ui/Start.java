@@ -230,12 +230,7 @@ public class Start extends Application {
 		});
 		return menu;
 	}
-
-	/*
-	 * public static String CHECKOUT_BOOK = "Checkout A Book"; public static String
-	 * PRINT_CHECKOUT_RECORD = "Print Checkout Record"; public static String
-	 * VERIFY_OVERDUE = "Verify Overdue";
-	 */
+	
 	private MenuItem getCheckoutMenu() {
 
 		MenuItem menu = new MenuItem("Checkout A Book");
