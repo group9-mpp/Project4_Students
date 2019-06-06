@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/*
 public class MainUIWindow extends Stage implements LibWindow {
 	public static final MainUIWindow INSTANCE = new MainUIWindow();
 	private boolean isInitialized = false;
@@ -90,6 +91,8 @@ public class MainUIWindow extends Stage implements LibWindow {
 			break;
 		case (SiteFeatures.ADD_BOOK_COPY):
 			// display the window to add a new book copy
+			AddNewBookCopyWindow.INSTANCE.init();
+			INSTANCE.hide();
 			break;
 		case (SiteFeatures.ADD_MEMBER):
 			// display the window to add a new member
@@ -116,3 +119,4 @@ public class MainUIWindow extends Stage implements LibWindow {
 	}
 
 }
+*/

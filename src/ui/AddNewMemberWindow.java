@@ -1,5 +1,5 @@
 package ui;
-
+/*
 import java.io.IOException;
 
 import com.sun.xml.internal.ws.util.StringUtils;
@@ -22,6 +22,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 
 public class AddNewMemberWindow extends Stage implements LibWindow {
 	public static final AddNewMemberWindow INSTANCE = new AddNewMemberWindow();
@@ -113,4 +114,4 @@ public class AddNewMemberWindow extends Stage implements LibWindow {
 
 	}
 
-}
+}*/

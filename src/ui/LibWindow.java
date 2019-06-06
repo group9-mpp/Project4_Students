@@ -1,7 +1,15 @@
 package ui;
 
-public interface LibWindow {
-	void init();
-	boolean isInitialized();
-	void isInitialized(boolean val);
+import javafx.scene.layout.Pane;
+
+public class LibWindow {
+
+	public  void setScreen(Start mainApp) {
+		mainApp.setScreen(getScreen(mainApp));
+	}
+
+	protected  Pane getScreen(Start mainApp) {
+		return null;
+	}
+
 }

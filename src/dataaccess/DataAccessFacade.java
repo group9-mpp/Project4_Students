@@ -14,6 +14,7 @@ import java.util.List;
 import business.AddMemberException;
 import business.Book;
 import business.BookCopy;
+import business.BookNotFoundException;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade.StorageType;
 
@@ -172,15 +173,6 @@ public class DataAccessFacade implements DataAccess {
 	}
 	///
 	/// NEW METHODS ADDED BELOW
-
-	@Override
-	public void addBookCopy(Book book) {
-		// this method is called after a new book copy
-		// has been created and added to a book. So the book
-		// is returned to be persisted.
-		// make sure it doesn't create duplicate
-		saveToStorage(StorageType.BOOKS, book);
-	}
 
 	@Override
 	public void updateMember(LibraryMember member) {
