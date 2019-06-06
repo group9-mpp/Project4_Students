@@ -1,6 +1,8 @@
 package ui;
 
 import business.ControllerInterface;
+
+import javafx.scene.control.*;
 import business.LoginException;
 import business.SystemController;
 import javafx.event.ActionEvent;
@@ -14,35 +16,21 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LoginWindow extends Stage implements LibWindow {
-	public static final LoginWindow INSTANCE = new LoginWindow();
+public class LoginWindow // extends Stage implements LibWindow
+{
+	public static void setScreen(Start mainApp) {
 
-	private boolean isInitialized = false;
-
-	public boolean isInitialized() {
-		return isInitialized;
+		mainApp.setScreen(getScreen(mainApp));
 	}
 
-	public void isInitialized(boolean val) {
-		isInitialized = val;
-	}
-
-	private Text messageBar = new Text();
-
-	public void clear() {
-		messageBar.setText("");
-	}
-
-	private LoginWindow() {
-	}
-
-	public void init() {
+	private static Pane getScreen(Start mainApp) {
 
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
@@ -76,11 +64,11 @@ public class LoginWindow extends Stage implements LibWindow {
 		hbBtn.getChildren().add(loginBtn);
 		grid.add(hbBtn, 1, 4);
 
-		HBox messageBox = new HBox(10);
-		messageBox.setAlignment(Pos.BOTTOM_RIGHT);
-		messageBox.getChildren().add(messageBar);
-		;
-		grid.add(messageBox, 1, 6);
+		// HBox messageBox = new HBox(10);
+		// messageBox.setAlignment(Pos.BOTTOM_RIGHT);
+		// messageBox.getChildren().add(messageBar);
+
+		// grid.add(messageBox, 1, 6);
 
 		loginBtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -88,35 +76,27 @@ public class LoginWindow extends Stage implements LibWindow {
 				try {
 					ControllerInterface c = new SystemController();
 					c.login(userTextField.getText().trim(), pwBox.getText().trim());
-					messageBar.setFill(Start.Colors.green);
-					messageBar.setText("Login successful. Loading UI...");
-					MainUIWindow.INSTANCE.init();
-					INSTANCE.hide();
-					
+
+					Alert alert = new Alert(Alert.AlertType.INFORMATION);
+					alert.setTitle("Login");
+					alert.setHeaderText("Login successful.");
+					// alert.setContentText("I have a great message for you!");
+					alert.showAndWait();
+
+					mainApp.setHomeScreen();
+
 				} catch (LoginException ex) {
-					messageBar.setFill(Start.Colors.red);
-					messageBar.setText("Error! " + ex.getMessage());
+
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("Login");
+					alert.setHeaderText("Login failed");
+					alert.setContentText("Error! " + ex.getMessage());
+					alert.showAndWait();
 				}
 
 			}
 		});
 
-		Button backBtn = new Button("<= Back to Main");
-		backBtn.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent e) {
-				Start.hideAllWindows();
-				Start.primStage().show();
-			}
-		});
-		HBox hBack = new HBox(10);
-		hBack.setAlignment(Pos.BOTTOM_LEFT);
-		hBack.getChildren().add(backBtn);
-		grid.add(hBack, 0, 7);
-		Scene scene = new Scene(grid);
-		scene.getStylesheets().add(getClass().getResource("library.css").toExternalForm());
-		setScene(scene);
-
+		return grid;
 	}
-
 }

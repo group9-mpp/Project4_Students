@@ -13,14 +13,39 @@ import javafx.scene.control.ComboBox;
 public class MainUIWindowController {
 	ObservableList<String> featuresAvailable = FXCollections.observableArrayList();
 	@FXML
-	private ComboBox<String> cmbFeaturesDropDown = new ComboBox<String>();
+	private ComboBox<String> cmbFeaturesDropDown;// = new ComboBox<String>();
 
-	
 	@FXML
 	private Button btnProceed = new Button();
 
 	@FXML
-	private void loadFeatures() {
+	private void loadFeatures(ActionEvent event) { 
+		System.out.print(cmbFeaturesDropDown);
+		System.out.print(event);
+		System.out.print("loadFeatures");
+		// cmbFeaturesDropDown.setItems ( new ComboItem featuresAvailable) ;
+
+		/*
+		 * cmbFeaturesDropDown.getItems().add("Testing");
+		 * 
+		 * for(Object feature : cmbFeaturesDropDown.getItems()) {
+		 * System.out.println(feature); }
+		 */
+	}
+
+	public void showFeature() {
+//		String requestedAction = cmbFeaturesDropDown.getValue();
+		// call feature
+		System.out.println("James!!!");
+		cmbFeaturesDropDown.getItems().add("Testing");
+	}
+
+	public MainUIWindowController() {
+		// loadFeatures();
+		if(cmbFeaturesDropDown!=null) {
+		cmbFeaturesDropDown.getItems().add("Testing");
+		}
+		/*
 		switch (SystemController.currentAuth) {
 		case ADMIN:
 			featuresAvailable = FXCollections.observableArrayList(SiteFeatures.ADD_MEMBER,
@@ -39,24 +64,7 @@ public class MainUIWindowController {
 		default:
 			// ERROR HERE
 			break;
-		}
-		cmbFeaturesDropDown.setItems(featuresAvailable) ;
-
-		for(String feature : cmbFeaturesDropDown.getItems()) {
-			System.out.println(feature);
-		}
-		
-	}
-	
-	
-	public void showFeature(ActionEvent event) {
-//		String requestedAction = cmbFeaturesDropDown.getValue();
-		// call feature
-		System.out.println("James!!!");
-	}
-	
-	public MainUIWindowController() {
-		loadFeatures();
+		}*/
 	}
 
 }
