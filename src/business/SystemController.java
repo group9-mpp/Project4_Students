@@ -1,6 +1,5 @@
 package business;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +59,15 @@ public class SystemController implements ControllerInterface {
 	public void saveNewMember(LibraryMember member) throws AddMemberException {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewMember(member);
+	}
+
+	public LibraryMember getMember(String memberID) {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> membersMap = da.readMemberMap();
+		if (membersMap.containsKey(memberID)) {
+			return membersMap.get(memberID);
+		}
+		return null;
 	}
 
 	@Override
