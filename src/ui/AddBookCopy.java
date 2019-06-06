@@ -10,33 +10,23 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class AddBookCopy {
+public class AddBookCopy extends BaseWindow {
 
-	public static void setScreen(Start mainApp) {
-
-		mainApp.setScreen(getScreen(mainApp));
+	public AddBookCopy(Start mainApp) {
+		super(mainApp);
 	}
 
-	private static boolean entriesAreValid(String isbn, String qty) {
+	private boolean entriesAreValid(String isbn, String qty) {
 		return true;
 	}
 
-	private static void displayMessage(AlertType messageType, String title, String content) {
-		Alert alert = new Alert(messageType);
-		alert.setTitle(title);
-		alert.setContentText(content);
-		alert.showAndWait();
-
-	}
-
-	private static Book bookExistsWithISBN(String isbn, List<Book> listOfBooks) {
+	private Book bookExistsWithISBN(String isbn, List<Book> listOfBooks) {
 		for (Book book : listOfBooks) {
 			if (book.getIsbn().equals(isbn)) {
 				return book;
@@ -45,7 +35,7 @@ public class AddBookCopy {
 		return null;
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	protected Pane getScreen() {
 
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
@@ -81,7 +71,7 @@ public class AddBookCopy {
 
 							displayMessage(Alert.AlertType.INFORMATION, "Copy Added", "The Addition was successful");
 
-							AllBooksWindow.setScreen(mainApp);
+							new AllBooksWindow(mainApp).setScreen();
 
 						} else {
 							throw new Exception("Book Not Found!");

@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class EditMember {
+public class EditMember extends BaseWindow {
 
 	private Start mainApp;
 	private String memberID;
@@ -30,7 +30,7 @@ public class EditMember {
 	TextField txtPhone = new TextField();
 
 	public EditMember(Start mainApp, String memberID) {
-		this.mainApp = mainApp;
+		super(mainApp);
 		this.memberID = memberID;
 	}
 
@@ -38,12 +38,6 @@ public class EditMember {
 		mainApp.setScreen(getScreen());
 	}
 
-	private void displayMessage(AlertType messageType, String title, String content) {
-		Alert alert = new Alert(messageType);
-		alert.setTitle(title);
-		alert.setContentText(content);
-		alert.showAndWait();
-	}
 	
 	private void populateFields() {
 		ControllerInterface sc= new SystemController();
@@ -61,8 +55,10 @@ public class EditMember {
 
 	}
 	
+	
 
-	private Pane getScreen() {
+	protected Pane getScreen() {
+
 
 		txtMemberID.setDisable(true);
 
@@ -121,7 +117,7 @@ public class EditMember {
 
 					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Added Successfully");
 
-					AllMembersWindow.setScreen(mainApp);
+					new AllMembersWindow(mainApp).setScreen();
 
 				} catch (Exception ex) {
 

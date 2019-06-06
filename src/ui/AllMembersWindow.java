@@ -18,14 +18,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
-public class AllMembersWindow {
+public class AllMembersWindow extends BaseWindow {
 
-	public static void setScreen(Start mainApp) {
-
-		mainApp.setScreen(getScreen(mainApp));
+	public AllMembersWindow(Start mainApp) {
+		super(mainApp);
+		// TODO Auto-generated constructor stub
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	 
+
+	protected  Pane getScreen() {
 
 		TableView<LibraryMember> tableView = new TableView<>();
 

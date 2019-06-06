@@ -30,13 +30,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 
-public class CheckoutWindow {
-	public static void setScreen(Start mainApp) {
+public class CheckoutWindow  extends BaseWindow{
+	 
 
-		mainApp.setScreen(getScreen(mainApp));
+	public CheckoutWindow(Start mainApp) {
+		super(mainApp);
+		// TODO Auto-generated constructor stub
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	protected Pane getScreen() {
 
 		VBox  vbox = new VBox();
 		
