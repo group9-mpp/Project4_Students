@@ -17,21 +17,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class AddMember {
+public class AddMember extends BaseWindow {
 
-	public static void setScreen(Start mainApp) {
-
-		mainApp.setScreen(getScreen(mainApp));
-	}
-	private static void displayMessage(AlertType messageType, String title, String content) {
-		Alert alert = new Alert(messageType);
-		alert.setTitle(title);
-		alert.setContentText(content);
-		alert.showAndWait();
-
+	public AddMember(Start mainApp) {
+		super(mainApp);
+		// TODO Auto-generated constructor stub
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	protected Pane getScreen() {
 
 		TextField txtMemberID = new TextField();
 		TextField txtFirstName = new TextField();
@@ -94,17 +87,14 @@ public class AddMember {
 					ControllerInterface sc = new SystemController();
 					sc.saveNewMember(newMember);
 
-		
-					displayMessage(Alert.AlertType.INFORMATION,"Added Member", "Member Was Added Successfully");
-					
-					AllMembersWindow.setScreen(mainApp);
+					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Added Successfully");
+
+					new AllMembersWindow(mainApp).setScreen();
 
 				} catch (Exception ex) {
 
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-					alert.setTitle("Error!!!");
-					alert.setContentText(ex.getMessage());
-					alert.showAndWait();
+					displayMessage(Alert.AlertType.ERROR, "Error!!!", ex.getMessage());
+
 				}
 
 			}

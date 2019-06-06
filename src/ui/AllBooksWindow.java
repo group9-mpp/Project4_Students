@@ -14,14 +14,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
-public class AllBooksWindow {
+public class AllBooksWindow  extends BaseWindow {
 
-	public static void setScreen(Start mainApp) {
-
-		mainApp.setScreen(getScreen(mainApp));
+	public AllBooksWindow(Start mainApp) {
+		super(mainApp);
+		// TODO Auto-generated constructor stub
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	protected   Pane getScreen() {
 
 		TableView<Book> tableView = new TableView<>();
 

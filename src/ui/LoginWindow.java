@@ -23,14 +23,16 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class LoginWindow // extends Stage implements LibWindow
+public class LoginWindow  extends BaseWindow 
 {
-	public static void setScreen(Start mainApp) {
-
-		mainApp.setScreen(getScreen(mainApp));
+	public LoginWindow(Start mainApp) {
+		super(mainApp);
+		// TODO Auto-generated constructor stub
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	
+
+	protected  Pane getScreen() {
 
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
