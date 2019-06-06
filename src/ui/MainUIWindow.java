@@ -82,7 +82,7 @@ public class MainUIWindow extends Stage implements LibWindow {
 
 	public void showFeature(ActionEvent event) {
 		// getSelected feature
-		String selectedFeature = SiteFeatures.ADD_BOOK_COPY;// should actually get the feature from the combobox
+		String selectedFeature = SiteFeatures.ADD_MEMBER;// should actually get the feature from the combobox
 		System.out.println("Selected Feature is: " + selectedFeature);
 		switch (selectedFeature) {
 		case (SiteFeatures.ADD_BOOK):
