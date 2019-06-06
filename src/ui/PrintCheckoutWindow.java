@@ -1,10 +1,9 @@
 package ui;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+
 import java.util.List;
-import java.util.ListIterator;
+
 
 import business.CheckoutEntry;
 import business.CheckoutException;
@@ -12,10 +11,8 @@ import business.CheckoutRecord;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

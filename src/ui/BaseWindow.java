@@ -13,7 +13,8 @@ public class BaseWindow {
 	}
 
 	public void setScreen() {
-		mainApp.setScreen(getScreen());
+		Pane pane = getScreen();
+		mainApp.setScreen(pane);
 	}
 
 	protected Pane getScreen() {

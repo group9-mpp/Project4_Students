@@ -1,6 +1,5 @@
 package ui;
 
-import business.AddMemberException;
 import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
@@ -31,9 +30,7 @@ public class EditMember extends BaseWindow {
 
 	public EditMember(Start mainApp, String memberID) {
 		super(mainApp);
-		ControllerInterface sc = new SystemController();
-		member = sc.getMember(memberID);
-
+		member = new SystemController().getMember(memberID);
 	}
 
 	private void populateFields() {
@@ -99,7 +96,7 @@ public class EditMember extends BaseWindow {
 					String state = txtState.getText().trim();
 					String zipcode = txtZip.getText().trim();
 					String phonenumber = txtPhone.getText().trim();
-								
+
 					member.setFirstName(firstName);
 					member.setLastName(lastName);
 					member.setTelephone(phonenumber);
@@ -109,12 +106,16 @@ public class EditMember extends BaseWindow {
 					sc.updateMember(member);
 
 					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Updated Successfully");
+					System.out.println("here");
 
 					new AllMembersWindow(mainApp).setScreen();
+					System.out.println("now");
 
-				} 
-				catch (Exception ex) {
+				} catch (Exception ex) {
 					displayMessage(Alert.AlertType.ERROR, "Error!", ex.getMessage());
+					System.out.println("error: ");
+					ex.printStackTrace();
+
 				}
 
 			}

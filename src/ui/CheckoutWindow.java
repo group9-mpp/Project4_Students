@@ -7,7 +7,6 @@ import business.CheckoutEntry;
 import business.CheckoutException;
 import business.CheckoutRecord;
 import business.ControllerInterface;
-import business.LibraryMember;
 import business.SystemController;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
