@@ -1,5 +1,6 @@
 package ui;
 
+import business.AddMemberException;
 import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
@@ -111,7 +112,8 @@ public class EditMember extends BaseWindow {
 
 					new AllMembersWindow(mainApp).setScreen();
 
-				} catch (Exception ex) {
+				} 
+				catch (Exception ex) {
 					displayMessage(Alert.AlertType.ERROR, "Error!", ex.getMessage());
 				}
 

@@ -3,6 +3,7 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import business.AddBookException;
 import business.Author;
 import business.Book;
 import business.ControllerInterface;
@@ -94,13 +95,14 @@ public class AddBook extends BaseWindow {
 						displayMessage(Alert.AlertType.INFORMATION, "Book Added", "The Addition was successful");
 
 						new AllBooksWindow(mainApp).setScreen();
-//
 					} else {
-						throw new Exception("An Erro Occured. Please try again");
+						throw new Exception("An Error Occured. Please try again");
 					}
 
-				} catch (Exception ex) {
-					displayMessage(Alert.AlertType.ERROR, "Error!!!", ex.getMessage());
+				} catch (AddBookException ex) {
+					displayMessage(Alert.AlertType.ERROR, "No Duplicates Allowed", ex.getMessage());
+				} catch(Exception exc) {
+					displayMessage(Alert.AlertType.ERROR, "Error!!!", exc.getMessage());
 				}
 
 			}

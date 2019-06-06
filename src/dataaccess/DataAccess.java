@@ -2,12 +2,11 @@ package dataaccess;
 
 import java.util.HashMap;
 
+import business.AddBookException;
 import business.AddMemberException;
 import business.Author;
 import business.Book;
-import business.BookNotFoundException;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
 
 public interface DataAccess { 
 	public HashMap<String,Book> readBooksMap();
@@ -16,6 +15,6 @@ public interface DataAccess {
 	public HashMap<String, LibraryMember> readMemberMap();
 	public void saveNewMember(LibraryMember member) throws AddMemberException; 
 	public void updateMember(LibraryMember member);
-	public void saveNewBook(Book book);
+	public void saveNewBook(Book book) throws AddBookException;
 	public void updateBook(Book book);
 }

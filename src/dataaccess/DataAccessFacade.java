@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 
+import business.AddBookException;
 import business.AddMemberException;
 import business.Author;
 import business.Book;
@@ -45,7 +46,7 @@ public class DataAccessFacade implements DataAccess {
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);
 	}
-	
+
 	private void saveBook(Book book) {
 		HashMap<String, Book> books = readBooksMap();
 		String isbn = book.getIsbn();
@@ -64,6 +65,16 @@ public class DataAccessFacade implements DataAccess {
 		}
 	}
 
+	public void saveNewBook(Book book) throws AddBookException {
+		HashMap<String, Book> books = readBooksMap();
+		String isbn = book.getIsbn();
+		if (!books.containsKey(isbn)) {
+			saveBook(book);
+		} else {
+			throw new AddBookException("A Book has this ISBN already!");
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public HashMap<String, Book> readBooksMap() {
 		// Returns a Map with name/value pairs being
@@ -77,6 +88,7 @@ public class DataAccessFacade implements DataAccess {
 		// memberId -> LibraryMember
 		return (HashMap<String, LibraryMember>) readFromStorage(StorageType.MEMBERS);
 	}
+
 	@SuppressWarnings("unchecked")
 	public HashMap<Integer, Author> readAuthorsMap() {
 		// Returns a Map with id/value pairs being
@@ -205,16 +217,9 @@ public class DataAccessFacade implements DataAccess {
 	}
 
 	@Override
-	public void saveNewBook(Book book) {
-		saveBook(book);		
-	}
-	
-	@Override
 	public void updateBook(Book book) {
 		saveBook(book);
 
 	}
-
-	
 
 }

@@ -1,5 +1,6 @@
 package ui;
 
+import business.AddMemberException;
 import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
@@ -21,7 +22,6 @@ public class AddMember extends BaseWindow {
 
 	public AddMember(Start mainApp) {
 		super(mainApp);
-		// TODO Auto-generated constructor stub
 	}
 
 	protected Pane getScreen() {
@@ -91,12 +91,9 @@ public class AddMember extends BaseWindow {
 
 					new AllMembersWindow(mainApp).setScreen();
 
-				} catch (Exception ex) {
-
-					displayMessage(Alert.AlertType.ERROR, "Error!!!", ex.getMessage());
-
+				} catch (AddMemberException ex) {
+					displayMessage(Alert.AlertType.ERROR, "No Duplicates Allowed", ex.getMessage());
 				}
-
 			}
 		});
 

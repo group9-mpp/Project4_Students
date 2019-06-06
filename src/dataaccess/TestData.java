@@ -28,6 +28,7 @@ public class TestData {
 	@SuppressWarnings("serial")
 	public List<Author> allAuthors = new ArrayList<Author>() {
 		{
+			add(new Author("John", "Imhonikhe", "641-45-3981", addresses.get(1), "Very talented writer and programmer", 11851));
 			add(new Author("Joe", "Thomas", "641-445-2123", addresses.get(0), "A happy man is he.", 1111));
 			add(new Author("Sandra", "Thomas", "641-445-2123", addresses.get(0), "A happy wife is she.", 1234));
 			add(new Author("Nirmal", "Pugh", "641-919-3223", addresses.get(1), "Thinker of thoughts.", 1988));

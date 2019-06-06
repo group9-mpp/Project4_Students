@@ -109,7 +109,7 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 
-	public void saveBook(Book book) {
+	public void saveBook(Book book) throws AddBookException {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewBook(book);
 	}
