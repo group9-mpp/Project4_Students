@@ -228,7 +228,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-
+				CheckoutWindow.setScreen(mainApp);
 			}
 		});
 		return menu;
