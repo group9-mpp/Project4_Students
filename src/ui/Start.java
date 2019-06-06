@@ -1,5 +1,6 @@
 package ui;
 
+
 import business.SystemController;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -7,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -15,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Start extends Application {
@@ -23,7 +26,7 @@ public class Start extends Application {
 
 	private MenuBar mainMenu = new MenuBar();
 	Menu optionsMenu = new Menu("Menu");
-
+	Label lblAuth = new Label();
 	private Pane root;// = new BorderPane();
 
 	public static void main(String[] args) {
@@ -68,21 +71,19 @@ public class Start extends Application {
 		topContainer.setId("top-container");
 
 		VBox imageHolder = new VBox();
-		Image image = new Image("ui/library.jpg", 400, 300, false, false);
+		Image image = new Image("ui/library.jpg", 600, 400, false, false);
 
 		// simply displays in ImageView the image as is
 		ImageView iv = new ImageView();
 		iv.setImage(image);
 		imageHolder.getChildren().add(iv);
 		imageHolder.setAlignment(Pos.CENTER);
-		// HBox splashBox = new HBox();
-		// Label splashLabel = new Label("The Library System");
-		// splashLabel.setFont(Font.font("Trajan Pro", FontWeight.BOLD, 30));
-		// splashBox.getChildren().add(splashLabel);
-		// splashBox.setAlignment(Pos.CENTER);
+		
+		lblAuth.setFont(new Font(30));
+		topContainer.getChildren().add(lblAuth);
 
-		// topContainer.getChildren().add(splashBox);
 		topContainer.getChildren().add(imageHolder);
+
 		topContainer.setAlignment(Pos.CENTER);
 
 		setScreen(topContainer);
@@ -99,14 +100,18 @@ public class Start extends Application {
 			switch (SystemController.currentAuth) {
 			case ADMIN:
 				menus.addAll(getMenbersMenu(), getAddBookMenu(), getAddBookCopyMenu(), getAddMemberMenu());
+				lblAuth.setText("Welcome, Administrator");
 				break;
 			case LIBRARIAN:
 				menus.addAll(getBooksMenu(), getCheckoutMenu(), getPrintCheckoutMenu(), getVerifyCheckoutMenu());
+				lblAuth.setText("Welcome, Librarian");
+
 				break;
 			case BOTH:
 				menus.addAll(getMenbersMenu(), getAddMemberMenu());
 				menus.addAll(getBooksMenu(), getAddBookMenu(), getAddBookCopyMenu(), getCheckoutMenu(),
 						getPrintCheckoutMenu(), getVerifyCheckoutMenu());
+				lblAuth.setText("Welcome, Super Administrator");
 				break;
 			}
 
@@ -115,6 +120,7 @@ public class Start extends Application {
 		} else {
 			MenuItem login = getLoginMenu();
 			menus.add(login);
+			lblAuth.setText("Please Login To Proceed");
 		}
 
 	}
@@ -126,7 +132,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-			 new 	AllMembersWindow(mainApp).setScreen();
+				new AllMembersWindow(mainApp).setScreen();
 			}
 		});
 		return menu;
@@ -139,7 +145,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-			new 	AllBooksWindow(mainApp).setScreen();
+				new AllBooksWindow(mainApp).setScreen();
 			}
 		});
 		return menu;
@@ -230,7 +236,7 @@ public class Start extends Application {
 		});
 		return menu;
 	}
-	
+
 	private MenuItem getCheckoutMenu() {
 
 		MenuItem menu = new MenuItem("Checkout A Book");
@@ -251,6 +257,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
+				new PrintCheckoutWindow(mainApp).setScreen();
 
 			}
 		});

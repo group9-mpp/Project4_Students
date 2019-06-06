@@ -133,7 +133,15 @@ public class SystemController implements ControllerInterface {
 
 	}
 
+	@Override
+	public LibraryMember getCheckoutRecord(String id) throws CheckoutException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> memberMap = da.readMemberMap();
+		if (!memberMap.containsKey(id)) {
+			throw new CheckoutException("ID " + id + " not found");
+		}
 	
-	
+        return  memberMap.get(id);
+	}
 
 }
