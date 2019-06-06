@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import business.AddMemberException;
+import business.Author;
 import business.Book;
 import business.BookCopy;
 import business.BookNotFoundException;
@@ -21,20 +22,21 @@ import dataaccess.DataAccessFacade.StorageType;
 public class DataAccessFacade implements DataAccess {
 
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS, AUTHORS;
 	}
 
 	static String fileSeparator = "\\";
-	
+
 	static {
-		  String separator = File.separator;
-				  if(separator.equalsIgnoreCase("/")) {
-					  fileSeparator = separator;
-					  
-				  }
-	 }
-	  
-    public static final String OUTPUT_DIR = System.getProperty("user.dir") + fileSeparator +"src"+fileSeparator+ "dataaccess" +fileSeparator+"storage";
+		String separator = File.separator;
+		if (separator.equalsIgnoreCase("/")) {
+			fileSeparator = separator;
+
+		}
+	}
+
+	public static final String OUTPUT_DIR = System.getProperty("user.dir") + fileSeparator + "src" + fileSeparator
+			+ "dataaccess" + fileSeparator + "storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 
 	private void saveMember(LibraryMember member) {
@@ -68,6 +70,12 @@ public class DataAccessFacade implements DataAccess {
 		// memberId -> LibraryMember
 		return (HashMap<String, LibraryMember>) readFromStorage(StorageType.MEMBERS);
 	}
+	@SuppressWarnings("unchecked")
+	public HashMap<Integer, Author> readAuthorsMap() {
+		// Returns a Map with id/value pairs being
+		// authorid -> Author
+		return (HashMap<Integer, Author>) readFromStorage(StorageType.AUTHORS);
+	}
 
 	@SuppressWarnings("unchecked")
 	public HashMap<String, User> readUserMap() {
@@ -90,6 +98,12 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, User> users = new HashMap<String, User>();
 		userList.forEach(user -> users.put(user.getId(), user));
 		saveToStorage(StorageType.USERS, users);
+	}
+
+	static void loadAuthorMap(List<Author> authorList) {
+		HashMap<Integer, Author> authors = new HashMap<Integer, Author>();
+		authorList.forEach(author -> authors.put(author.getID(), author));
+		saveToStorage(StorageType.AUTHORS, authors);
 	}
 
 	static void loadMemberMap(List<LibraryMember> memberList) {
@@ -178,7 +192,7 @@ public class DataAccessFacade implements DataAccess {
 	public void updateMember(LibraryMember member) {
 		// this method is called either after a new checkout entry
 		// has been created and added to a checkout record for a member.
-		//OR we edit a member's personal details
+		// OR we edit a member's personal details
 		// So the member's record is saved.
 		saveMember(member);
 	}

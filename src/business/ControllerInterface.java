@@ -15,6 +15,7 @@ public interface ControllerInterface {
 	public LibraryMember getMember(String memberId);
 	public void updateMember(LibraryMember member);
 	List<Book> allBooks();
+	List<Author> allAuthors();
 	public void updateBook(Book book);
 	public CheckoutRecord checkout(String id, String isbn)  throws CheckoutException;
 	public LibraryMember getCheckoutRecord(String id) throws CheckoutException;

@@ -79,7 +79,7 @@ public class Start extends Application {
 		imageHolder.getChildren().add(iv);
 		imageHolder.setAlignment(Pos.CENTER);
 		
-		lblAuth.setFont(new Font(30));
+		lblAuth.setFont(new Font(20));
 		topContainer.getChildren().add(lblAuth);
 
 		topContainer.getChildren().add(imageHolder);

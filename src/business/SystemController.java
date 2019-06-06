@@ -90,6 +90,18 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
+	public List<Author> allAuthors() {
+		DataAccess da = new DataAccessFacade();
+
+		List<Author> retval = new ArrayList<>();
+
+		for (Author author : da.readAuthorsMap().values()) {
+			retval.add(author);
+		}
+		return retval;
+	}
+	
+	@Override
 	public List<String> allBookIds() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
@@ -143,5 +155,7 @@ public class SystemController implements ControllerInterface {
 	
         return  memberMap.get(id);
 	}
+
+	
 
 }

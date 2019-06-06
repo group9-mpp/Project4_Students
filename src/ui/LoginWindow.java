@@ -79,12 +79,6 @@ public class LoginWindow  extends BaseWindow
 					ControllerInterface c = new SystemController();
 					c.login(userTextField.getText().trim(), pwBox.getText().trim());
 
-//					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//					alert.setTitle("Login");
-//					alert.setHeaderText("Login successful.");
-//					// alert.setContentText("I have a great message for you!");
-//					alert.showAndWait();
-
 					mainApp.setHomeScreen();
 
 				} catch (LoginException ex) {
