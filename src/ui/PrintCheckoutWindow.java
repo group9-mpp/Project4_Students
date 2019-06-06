@@ -36,13 +36,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 
-public class PrintCheckoutWindow {
-	public static void setScreen(Start mainApp) {
+public class PrintCheckoutWindow extends BaseWindow {
 
-		mainApp.setScreen(getScreen(mainApp));
+	public PrintCheckoutWindow(Start mainApp) {
+		super(mainApp);
+		// TODO Auto-generated constructor stub
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	protected  Pane getScreen() {
 
 		VBox  vbox = new VBox();
 		

@@ -256,7 +256,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				PrintCheckoutWindow.setScreen(mainApp);
+				new PrintCheckoutWindow(mainApp).setScreen();
 
 			}
 		});
