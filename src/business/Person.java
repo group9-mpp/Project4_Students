@@ -52,4 +52,8 @@ public class Person implements Serializable {
 	public String toString() {
 		return firstName + " " + lastName;
 	}
+	
+	public String getName() {
+		return firstName + " " + lastName;
+	}
 }

@@ -107,7 +107,7 @@ public class CheckoutWindow {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
 					alert.setTitle("Checkout");
 					alert.setHeaderText("Checkout successful.");
-					alert.setContentText(checkoutRecord.toString());
+					//alert.setContentText(checkoutRecord.toString());
 					alert.showAndWait();
 
 					tableView.setItems(FXCollections.observableArrayList(checkoutRecord.getCheckoutEntries()));

@@ -98,10 +98,10 @@ public class Start extends Application {
 			
 			switch (SystemController.currentAuth) {
 			case ADMIN:
-				menus.addAll(getMenbersMenu(), getAddMemberMenu());
+				menus.addAll(getMenbersMenu(),getAddBookMenu(), getAddBookCopyMenu(), getAddMemberMenu());
 				break;
 			case LIBRARIAN: 
-				menus.addAll(getBooksMenu(), getAddBookMenu(), getAddBookCopyMenu(),getCheckoutMenu(),getPrintCheckoutMenu(),getVerifyCheckoutMenu());
+				menus.addAll(getBooksMenu(), getCheckoutMenu(),getPrintCheckoutMenu(),getVerifyCheckoutMenu());
 				break;
 			case BOTH:
 				menus.addAll(getMenbersMenu(), getAddMemberMenu());
