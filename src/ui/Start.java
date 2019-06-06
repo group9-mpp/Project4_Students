@@ -101,11 +101,11 @@ public class Start extends Application {
 				menus.addAll(getMenbersMenu(), getAddMemberMenu());
 				break;
 			case LIBRARIAN: 
-				menus.addAll(getBooksMenu(), getAddBookMenu(),getCheckoutMenu(),getPrintCheckoutMenu(),getVerifyCheckoutMenu());
+				menus.addAll(getBooksMenu(), getAddBookMenu(), getAddBookCopyMenu(),getCheckoutMenu(),getPrintCheckoutMenu(),getVerifyCheckoutMenu());
 				break;
 			case BOTH:
 				menus.addAll(getMenbersMenu(), getAddMemberMenu());
-				menus.addAll(getBooksMenu(), getAddBookMenu(),getCheckoutMenu(),getPrintCheckoutMenu(),getVerifyCheckoutMenu());
+				menus.addAll(getBooksMenu(), getAddBookMenu(),getAddBookCopyMenu(),getCheckoutMenu(),getPrintCheckoutMenu(),getVerifyCheckoutMenu());
 				break; 
 			}
 
@@ -216,6 +216,18 @@ public class Start extends Application {
 		return menu;
 	}
 
+	private MenuItem getAddBookCopyMenu() {
+
+		MenuItem menu = new MenuItem("Add Book Copy");
+
+		menu.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent e) {
+				AddBookCopy.setScreen(mainApp);
+			}
+		});
+		return menu;
+	}
 	/*
 	 * public static String CHECKOUT_BOOK = "Checkout A Book"; public static String
 	 * PRINT_CHECKOUT_RECORD = "Print Checkout Record"; public static String
@@ -259,4 +271,6 @@ public class Start extends Application {
 		});
 		return menu;
 	}
+
+	
 }
