@@ -4666,7 +4666,7 @@
 												"$ref": "AAAAAAFrI9tm0uhtQ9k="
 											},
 											"edgePosition": 1,
-											"text": "1 : click add book copy"
+											"text": "1 : Enter book isbn"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -5761,7 +5761,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFrI9gkyedf6nQ="
 							},
-							"name": "click add book copy",
+							"name": "Enter book isbn",
 							"source": {
 								"$ref": "AAAAAAFrI9mVFeeh1kA="
 							},

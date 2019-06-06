@@ -1158,17 +1158,17 @@
 												"$ref": "AAAAAAFrI1js3Il7G18="
 											},
 											"font": "Arial;13;0",
-											"left": 83,
-											"top": 100,
-											"width": 98.9853515625,
+											"left": 79,
+											"top": 96,
+											"width": 166.91796875,
 											"height": 13,
-											"alpha": 1.5707963267948966,
-											"distance": 10,
+											"alpha": 0.43662703207635,
+											"distance": 33.1058907144937,
 											"hostEdge": {
 												"$ref": "AAAAAAFrI1js3ol8TBY="
 											},
 											"edgePosition": 1,
-											"text": "1 : click checkout"
+											"text": "1 : Enter member id and isbn"
 										},
 										{
 											"_type": "EdgeLabelView",
@@ -3711,7 +3711,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFrIykQcIguuBE="
 							},
-							"name": "click checkout",
+							"name": "Enter member id and isbn",
 							"source": {
 								"$ref": "AAAAAAFrI1dDV4lJpf4="
 							},
@@ -4180,7 +4180,8 @@
 					"_parent": {
 						"$ref": "AAAAAAFrIykQcIgtzJk="
 					},
-					"name": "Role4"
+					"name": "Role4",
+					"type": ""
 				},
 				{
 					"_type": "UMLAttribute",
@@ -4244,7 +4245,8 @@
 					"_parent": {
 						"$ref": "AAAAAAFrIykQcIgtzJk="
 					},
-					"name": "Role11"
+					"name": "Role11",
+					"type": ""
 				}
 			]
 		},
