@@ -13,6 +13,7 @@ public interface ControllerInterface {
 	List<LibraryMember> allMembers();
 	public void saveNewMember(LibraryMember member) throws AddMemberException;
 	public LibraryMember getMember(String memberId);
+	public void updateMember(LibraryMember member);
 	List<Book> allBooks();
 	public void updateBook(Book book);
 	public CheckoutRecord checkout(String id, String isbn)  throws CheckoutException;

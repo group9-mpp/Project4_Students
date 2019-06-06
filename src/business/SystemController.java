@@ -71,6 +71,13 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
+	public void updateMember(LibraryMember member) {
+		DataAccessFacade da = new DataAccessFacade();
+		da.updateMember(member);
+		
+	}
+	
+	@Override
 	public List<Book> allBooks() {
 		DataAccess da = new DataAccessFacade();
 
@@ -125,5 +132,8 @@ public class SystemController implements ControllerInterface {
 		return checkoutRecord;
 
 	}
+
+	
+	
 
 }

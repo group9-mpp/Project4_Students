@@ -19,7 +19,7 @@ import javafx.scene.layout.Pane;
 public class EditMember extends BaseWindow {
 
 	private Start mainApp;
-	private String memberID;
+	private LibraryMember member;
 	TextField txtMemberID = new TextField();
 	TextField txtFirstName = new TextField();
 	TextField txtLastName = new TextField();
@@ -31,14 +31,12 @@ public class EditMember extends BaseWindow {
 
 	public EditMember(Start mainApp, String memberID) {
 		super(mainApp);
-		this.memberID = memberID;
+		ControllerInterface sc = new SystemController();
+		member = sc.getMember(memberID);
+
 	}
 
-	
-	
 	private void populateFields() {
-		ControllerInterface sc= new SystemController();
-		LibraryMember member = sc.getMember(memberID);
 		txtMemberID.setText(member.getMemberId());
 		txtFirstName.setText(member.getFirstName());
 		txtLastName.setText(member.getLastName());
@@ -51,11 +49,8 @@ public class EditMember extends BaseWindow {
 		txtZip.setText(memberAddress.getZip());
 
 	}
-	
-	
 
 	protected Pane getScreen() {
-
 
 		txtMemberID.setDisable(true);
 
@@ -97,7 +92,6 @@ public class EditMember extends BaseWindow {
 			@Override
 			public void handle(ActionEvent e) {
 				try {
-//					String memberID = txtMemberID.getText().trim();
 					String firstName = txtFirstName.getText().trim();
 					String lastName = txtLastName.getText().trim();
 					String street = txtStreet.getText().trim();
@@ -105,23 +99,21 @@ public class EditMember extends BaseWindow {
 					String state = txtState.getText().trim();
 					String zipcode = txtZip.getText().trim();
 					String phonenumber = txtPhone.getText().trim();
+								
+					member.setFirstName(firstName);
+					member.setLastName(lastName);
+					member.setTelephone(phonenumber);
+					member.setAddress(new Address(street, city, state, zipcode));
 
-					Address memberAddress = new Address(street, city, state, zipcode);
-					LibraryMember newMember = new LibraryMember(memberID, firstName, lastName, phonenumber,
-							memberAddress);
 					ControllerInterface sc = new SystemController();
-					sc.saveNewMember(newMember);
+					sc.updateMember(member);
 
-					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Added Successfully");
+					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Updated Successfully");
 
 					new AllMembersWindow(mainApp).setScreen();
 
 				} catch (Exception ex) {
-
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-					alert.setTitle("Error!!!");
-					alert.setContentText(ex.getMessage());
-					alert.showAndWait();
+					displayMessage(Alert.AlertType.ERROR, "Error!", ex.getMessage());
 				}
 
 			}

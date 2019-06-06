@@ -176,8 +176,9 @@ public class DataAccessFacade implements DataAccess {
 
 	@Override
 	public void updateMember(LibraryMember member) {
-		// this method is called after a new checkout entry
+		// this method is called either after a new checkout entry
 		// has been created and added to a checkout record for a member.
+		//OR we edit a member's personal details
 		// So the member's record is saved.
 		saveMember(member);
 	}
