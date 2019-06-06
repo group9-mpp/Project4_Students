@@ -3,6 +3,7 @@ package ui;
 import java.util.List;
 
 import business.Book;
+import business.ControllerInterface;
 import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -71,7 +72,7 @@ public class AddBookCopy {
 					String qtyString = txtQty.getText().trim();
 					if (entriesAreValid(isbn, qtyString)) {
 						int qty = Integer.parseInt(txtQty.getText().trim());
-						SystemController sc = new SystemController();
+						ControllerInterface sc = new SystemController();
 						List<Book> listOfBooks = sc.allBooks();
 						Book book = bookExistsWithISBN(isbn, listOfBooks);
 						if (book != null) {

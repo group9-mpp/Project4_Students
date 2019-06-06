@@ -11,7 +11,9 @@ public interface ControllerInterface {
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
 	List<LibraryMember> allMembers();
+	public void saveNewMember(LibraryMember member) throws AddMemberException;
 	List<Book> allBooks();
+	public void updateBook(Book book);
 	public CheckoutRecord checkout(String id, String isbn)  throws CheckoutException;
 	
 }

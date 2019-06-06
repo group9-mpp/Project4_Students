@@ -1,6 +1,7 @@
 package ui;
 
 import business.Address;
+import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
 import dataaccess.DataAccessFacade;
@@ -90,7 +91,7 @@ public class AddMember {
 					Address memberAddress = new Address(street, city, state, zipcode);
 					LibraryMember newMember = new LibraryMember(memberID, firstName, lastName, phonenumber,
 							memberAddress);
-					SystemController sc = new SystemController();
+					ControllerInterface sc = new SystemController();
 					sc.saveNewMember(newMember);
 
 		
