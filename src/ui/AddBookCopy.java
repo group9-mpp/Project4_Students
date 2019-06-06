@@ -1,14 +1,16 @@
 package ui;
 
-import java.util.HashMap;
+import java.util.List;
 
 import business.Book;
-import dataaccess.DataAccessFacade;
+import business.ControllerInterface;
+import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,6 +22,27 @@ public class AddBookCopy {
 	public static void setScreen(Start mainApp) {
 
 		mainApp.setScreen(getScreen(mainApp));
+	}
+
+	private static boolean entriesAreValid(String isbn, String qty) {
+		return true;
+	}
+
+	private static void displayMessage(AlertType messageType, String title, String content) {
+		Alert alert = new Alert(messageType);
+		alert.setTitle(title);
+		alert.setContentText(content);
+		alert.showAndWait();
+
+	}
+
+	private static Book bookExistsWithISBN(String isbn, List<Book> listOfBooks) {
+		for (Book book : listOfBooks) {
+			if (book.getIsbn().equals(isbn)) {
+				return book;
+			}
+		}
+		return null;
 	}
 
 	private static Pane getScreen(Start mainApp) {
@@ -44,40 +67,31 @@ public class AddBookCopy {
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-
 				try {
 					String isbn = txtISBN.getText().trim();
-					String qty = txtQty.getText().trim();
+					String qtyString = txtQty.getText().trim();
+					if (entriesAreValid(isbn, qtyString)) {
+						int qty = Integer.parseInt(txtQty.getText().trim());
+						ControllerInterface sc = new SystemController();
+						List<Book> listOfBooks = sc.allBooks();
+						Book book = bookExistsWithISBN(isbn, listOfBooks);
+						if (book != null) {
+							book.addCopy(qty);
+							sc.updateBook(book);
 
-					DataAccessFacade dataAccessObject = new DataAccessFacade();
-					HashMap<String, Book> booksMap = dataAccessObject.readBooksMap();
+							displayMessage(Alert.AlertType.INFORMATION, "Copy Added", "The Addition was successful");
 
-					if (booksMap.containsKey(isbn)) {
-						
-						Book book = booksMap.get(isbn);
-						book.addCopy();
-						dataAccessObject.updateBook(book);
-						
-						System.out.println("Book Copy Added Successfully");
-						
-						Alert alert = new Alert(Alert.AlertType.INFORMATION);
-						alert.setTitle("Save");
-						alert.setContentText("Book Copy Added Successfully");
-						alert.showAndWait();
+							AllBooksWindow.setScreen(mainApp);
 
-						AllBooksWindow.setScreen(mainApp);
-						
+						} else {
+							throw new Exception("Book Not Found!");
+						}
 					} else {
-						throw new Exception("Book Not Found!");
+						throw new Exception("Your inputs have errors");
 					}
 
 				} catch (Exception ex) {
-
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-					alert.setTitle("Error!!!");
-					alert.setContentText(ex.getMessage());
-					alert.showAndWait();
-
+					displayMessage(Alert.AlertType.ERROR, "Error!!!", ex.getMessage());
 				}
 
 			}

@@ -1,7 +1,9 @@
 package ui;
 
 import business.Address;
+import business.ControllerInterface;
 import business.LibraryMember;
+import business.SystemController;
 import dataaccess.DataAccessFacade;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -19,6 +22,13 @@ public class AddMember {
 	public static void setScreen(Start mainApp) {
 
 		mainApp.setScreen(getScreen(mainApp));
+	}
+	private static void displayMessage(AlertType messageType, String title, String content) {
+		Alert alert = new Alert(messageType);
+		alert.setTitle(title);
+		alert.setContentText(content);
+		alert.showAndWait();
+
 	}
 
 	private static Pane getScreen(Start mainApp) {
@@ -81,15 +91,11 @@ public class AddMember {
 					Address memberAddress = new Address(street, city, state, zipcode);
 					LibraryMember newMember = new LibraryMember(memberID, firstName, lastName, phonenumber,
 							memberAddress);
-					DataAccessFacade dataAccessObject = new DataAccessFacade();
+					ControllerInterface sc = new SystemController();
+					sc.saveNewMember(newMember);
 
-					dataAccessObject.saveNewMember(newMember);
-					System.out.println("Member Added Successfully");
-
-					Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle("Save");
-					alert.setContentText("Member Added Successfully");
-					alert.showAndWait();
+		
+					displayMessage(Alert.AlertType.INFORMATION,"Added Member", "Member Was Added Successfully");
 					
 					AllMembersWindow.setScreen(mainApp);
 
