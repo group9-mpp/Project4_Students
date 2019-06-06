@@ -45,6 +45,13 @@ public class DataAccessFacade implements DataAccess {
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);
 	}
+	
+	private void saveBook(Book book) {
+		HashMap<String, Book> books = readBooksMap();
+		String isbn = book.getIsbn();
+		books.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, books);
+	}
 
 	// implement: other save operations
 	public void saveNewMember(LibraryMember member) throws AddMemberException {
@@ -198,12 +205,16 @@ public class DataAccessFacade implements DataAccess {
 	}
 
 	@Override
+	public void saveNewBook(Book book) {
+		saveBook(book);		
+	}
+	
+	@Override
 	public void updateBook(Book book) {
-		HashMap<String, Book> books = readBooksMap();
-		String isbn = book.getIsbn();
-		books.put(isbn, book);
-		saveToStorage(StorageType.BOOKS, books);
+		saveBook(book);
 
 	}
+
+	
 
 }

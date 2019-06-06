@@ -6,9 +6,7 @@ import java.util.List;
 import business.Author;
 import business.Book;
 import business.ControllerInterface;
-import business.LibraryMember;
 import business.SystemController;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,13 +15,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.util.Pair;
 
 public class AddBook extends BaseWindow {
 
@@ -31,7 +25,8 @@ public class AddBook extends BaseWindow {
 		super(mainApp);
 	}
 
-	private boolean entriesAreValid(String isbn, String qty) {
+	private boolean entriesAreValid(String isbn, String qty, String maxCheckoutLengthStr, String numberOfCopiesStr,
+			Author author) {
 		return true;
 	}
 
@@ -55,7 +50,7 @@ public class AddBook extends BaseWindow {
 		grid.add(new Label("Max. Checkout Period (In Days)"), 0, 2);
 		ComboBox<String> cmbMaxCheckoutLength = new ComboBox<String>();
 		cmbMaxCheckoutLength.getItems().add("7");
-		cmbMaxCheckoutLength.getItems().add("27");
+		cmbMaxCheckoutLength.getItems().add("21");
 		grid.add(cmbMaxCheckoutLength, 1, 2);
 
 		grid.add(new Label("Number of Copies Available"), 0, 3);
@@ -66,10 +61,9 @@ public class AddBook extends BaseWindow {
 		ComboBox<Author> cmbAuthor = new ComboBox<Author>();
 		ControllerInterface sc = new SystemController();
 		List<Author> listOfAuthors = sc.allAuthors();
-		
+
 		cmbAuthor.getItems().addAll(listOfAuthors);
 		grid.add(cmbAuthor, 1, 4);
-
 
 		Button btnSave = new Button("Add Book");
 
@@ -81,27 +75,28 @@ public class AddBook extends BaseWindow {
 					String title = txtTitle.getText().trim();
 					String maxCheckoutLengthStr = cmbMaxCheckoutLength.getValue().trim();
 					String numberOfCopiesStr = txtNumOfCopies.getText().trim();
+					Author author = cmbAuthor.getValue();
 
-					if (entriesAreValid(isbn, title)) {
+					if (entriesAreValid(isbn, title, maxCheckoutLengthStr, numberOfCopiesStr, author)) {
 						int maxCheckoutLength = Integer.parseInt(maxCheckoutLengthStr);
 						int numOfCopies = Integer.parseInt(numberOfCopiesStr);
+
+						List<Author> authors = new ArrayList<Author>();
+						authors.add(author);
+
+						Book book = new Book(isbn, title, maxCheckoutLength, authors);
+						if (numOfCopies > 1) {
+							book.addCopy(numOfCopies - 1);// because 1 copy was created by default in book constructor
+						}
+
+						sc.saveBook(book);
+						
+						displayMessage(Alert.AlertType.INFORMATION, "Book Added", "The Addition was successful");
+
+						new AllBooksWindow(mainApp).setScreen();
 //
-//						ControllerInterface sc = new SystemController();
-//						List<Book> listOfBooks = sc.allBooks();
-//						Book book = bookExistsWithISBN(isbn, listOfBooks);
-//						if (book != null) {
-//							book.addCopy(qty);
-//							sc.updateBook(book);
-//
-//							displayMessage(Alert.AlertType.INFORMATION, "Copy Added", "The Addition was successful");
-//
-//							new AllBooksWindow(mainApp).setScreen();
-//
-//						} else {
-//							throw new Exception("Book Not Found!");
-//						}
 					} else {
-						throw new Exception("Your inputs have errors");
+						throw new Exception("An Erro Occured. Please try again");
 					}
 
 				} catch (Exception ex) {

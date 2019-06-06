@@ -16,5 +16,6 @@ public interface DataAccess {
 	public HashMap<String, LibraryMember> readMemberMap();
 	public void saveNewMember(LibraryMember member) throws AddMemberException; 
 	public void updateMember(LibraryMember member);
+	public void saveNewBook(Book book);
 	public void updateBook(Book book);
 }

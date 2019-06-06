@@ -109,6 +109,11 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 
+	public void saveBook(Book book) {
+		DataAccess da = new DataAccessFacade();
+		da.saveNewBook(book);
+	}
+	
 	public void updateBook(Book book) {
 		DataAccess da = new DataAccessFacade();
 		da.updateBook(book);
