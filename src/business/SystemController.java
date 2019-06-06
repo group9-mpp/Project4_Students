@@ -56,6 +56,11 @@ public class SystemController implements ControllerInterface {
 
 		return retval;
 	}
+	
+	public void saveNewMember(LibraryMember member) throws AddMemberException {
+		DataAccess da = new DataAccessFacade();
+		da.saveNewMember(member);
+	}
 
 	@Override
 	public List<Book> allBooks() {
@@ -63,11 +68,10 @@ public class SystemController implements ControllerInterface {
 
 		List<Book> retval = new ArrayList<>();
 
-		for (Book member : da.readBooksMap().values()) {
-			retval.add(member);
+		for (Book book : da.readBooksMap().values()) {
+			retval.add(book);
 		}
- ;
-		return retval;
+ 		return retval;
 	}
 
 	@Override
@@ -76,6 +80,10 @@ public class SystemController implements ControllerInterface {
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
+	}
+	public void updateBook(Book book) {
+		DataAccess da = new DataAccessFacade();
+		da.updateBook(book);
 	}
 
 	@Override
@@ -110,20 +118,7 @@ public class SystemController implements ControllerInterface {
 		
 	}
 	
-	// for testing
 	
-	/*
-	 * public static void main(String[] args) { SystemController c = new
-	 * SystemController(); try { System.out.println((9+10)/2);
-	 * 
-	 * CheckoutRecord checkoutRecord = c.checkout( "1002", "23-11451");
-	 * System.out.println("checkoutRecord: " + checkoutRecord);
-	 * 
-	 * } catch (CheckoutException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); }
-	 * 
-	 * }
-	 */
 	
 	
 }
