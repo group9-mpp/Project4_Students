@@ -13,9 +13,9 @@ public class CheckoutEntry implements Serializable {
 	private LocalDate dueDate;
 	private BookCopy bookCopy;
 	private CheckoutRecord checkoutRecord;
-	public CheckoutEntry(LocalDate checkoutDate, LocalDate dueDate, BookCopy bookCopy,CheckoutRecord checkoutRecord) {
-		this.checkoutDate = checkoutDate;
-		this.dueDate = dueDate;
+	public CheckoutEntry( BookCopy bookCopy,CheckoutRecord checkoutRecord) {
+		this.checkoutDate =  LocalDate.now();
+		this.dueDate = checkoutDate.plusDays(7); // TODO: OR 21 days
 		this.bookCopy = bookCopy;
 		this.checkoutRecord = checkoutRecord;
 		
@@ -41,7 +41,7 @@ public class CheckoutEntry implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "CheckoutEntry [checkoutDate=" + checkoutDate + ", dueDate=" + dueDate + ", bookCopy=" + bookCopy + "]";
+		return "\nCheckoutEntry [checkoutDate=" + checkoutDate + ", dueDate=" + dueDate + ", book=" + bookCopy.getBook().getIsbn() + " copy " + bookCopy.getCopyNum()+ "]";
 	}
 	
 	

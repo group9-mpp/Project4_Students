@@ -1,5 +1,6 @@
 package dataaccess;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,6 +11,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 
+import business.AddMemberException;
 import business.Book;
 import business.BookCopy;
 import business.LibraryMember;
@@ -21,15 +23,35 @@ public class DataAccessFacade implements DataAccess {
 		BOOKS, MEMBERS, USERS;
 	}
 
-	public static final String OUTPUT_DIR = System.getProperty("user.dir") + "\\src\\dataaccess\\storage";
+	static String fileSeparator = "\\";
+	
+	static {
+		  String separator = File.separator;
+				  if(separator.equalsIgnoreCase("/")) {
+					  fileSeparator = separator;
+					  
+				  }
+	 }
+	  
+    public static final String OUTPUT_DIR = System.getProperty("user.dir") + fileSeparator +"src"+fileSeparator+ "dataaccess" +fileSeparator+"storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 
-	// implement: other save operations
-	public void saveNewMember(LibraryMember member) {
+	private void saveMember(LibraryMember member) {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);
+	}
+
+	// implement: other save operations
+	public void saveNewMember(LibraryMember member) throws AddMemberException {
+		HashMap<String, LibraryMember> mems = readMemberMap();
+		String memberId = member.getMemberId();
+		if (!mems.containsKey(memberId)) {
+			saveMember(member);
+		} else {
+			throw new AddMemberException("A Member has this ID already!");
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -163,17 +185,18 @@ public class DataAccessFacade implements DataAccess {
 	@Override
 	public void updateMember(LibraryMember member) {
 		// this method is called after a new checkout entry
-		// has been created and added to a checkout record for a member. 
-		//So the member's record is saved
-		
-		saveToStorage(StorageType.MEMBERS, member);
-
+		// has been created and added to a checkout record for a member.
+		// So the member's record is saved.
+		saveMember(member);
 	}
 
 	@Override
 	public void updateBook(Book book) {
-		// TODO Auto-generated method stub
-		
+		HashMap<String, Book> books = readBooksMap();
+		String isbn = book.getIsbn();
+		books.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, books);
+
 	}
 
 }

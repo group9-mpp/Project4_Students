@@ -1,5 +1,6 @@
 package business;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,4 +78,67 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 
+	@Override
+	public CheckoutRecord checkout(String id, String isbn) throws CheckoutException {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> booksMap = da.readBooksMap();
+		for (Map.Entry<String, Book> entry : booksMap.entrySet()) {
+		    Book value = entry.getValue();
+		    System.out.println("NumberBook: " + value.getNumCopies());
+		    // ...
+		}
+		HashMap<String,LibraryMember> memberMap = da.readMemberMap();
+		if(!memberMap.containsKey(id)) {
+			throw new CheckoutException("ID " + id + " not found");
+		}
+		LibraryMember member = memberMap.get(id);
+		if(!booksMap.containsKey(isbn)) {
+			throw new CheckoutException("ISBN " + isbn + " not found");
+		}
+		Book book = booksMap.get(isbn);
+		if(!book.isAvailable()) {
+			throw new CheckoutException("ISBN "+ isbn + " is not available");
+		}
+		
+		BookCopy bookCopy = book.getNextAvailableCopy();
+		bookCopy.changeAvailability();
+		book.updateCopies(bookCopy);
+		CheckoutRecord checkoutRecord = member.getCheckoutRecord();
+
+		CheckoutEntry checkoutEntry = new CheckoutEntry( bookCopy, checkoutRecord);
+		checkoutRecord.addCheckoutEntry(checkoutEntry);
+		member.setCheckoutRecord(checkoutRecord);
+		da.updateMember(member);
+		da.updateBook(book);
+		return checkoutRecord;
+		
+		
+	}
+	
+public static void main(String[] args) {
+	SystemController c = new SystemController();
+	try {
+		String ret = "";
+		ret = File.separator;
+		ret = System.getProperty("file.separator");
+		ret = String.valueOf(File.separatorChar);
+		
+		System.out.println("Current OS file separator = " + ret);
+		
+		String filePath = "test" + ret + "dev2qa.txt";
+		
+		System.out.println("filePath = " + filePath);
+		
+		
+		CheckoutRecord checkoutRecord = c.checkout( "1002", "23-11451");
+		System.out.println("checkoutRecord: " + checkoutRecord);
+	
+	} catch (CheckoutException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+		
+	}
+	
+	
 }
