@@ -32,13 +32,13 @@ public class AllBooksWindow {
 		columns.add(new Pair<String, String>("title", "Title"));
 		columns.add(new Pair<String, String>("maxCheckoutLength", "Max Checkout"));
 		columns.add(new Pair<String, String>("authors", "Authors"));
-		columns.add(new Pair<String, String>("copyNums", "Copies"));
+		columns.add(new Pair<String, String>("numCopies", "Copies"));
 		
 		for (Pair<String, String> pair : columns) {
 
 			TableColumn<Book, String> column = new TableColumn<>(pair.getValue());
 			column.setCellValueFactory(new PropertyValueFactory<>(pair.getKey()));
-
+			column.prefWidthProperty().bind(tableView.widthProperty().divide(columns.size()));
 			tableView.getColumns().add(column);
 		}
 
@@ -46,13 +46,13 @@ public class AllBooksWindow {
 		tableView.setItems(FXCollections.observableArrayList(ci.allBooks()));
 
 		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			if (newSelection != null) {
+			/*if (newSelection != null) {
 				Alert alert = new Alert(Alert.AlertType.WARNING);
 				alert.setTitle("Edit Book ");
 				alert.setHeaderText("Not implemented");
 				alert.setContentText(newSelection.toString());
 				alert.showAndWait();
-			}
+			}*/
 		});
 
 		return new VBox(tableView);

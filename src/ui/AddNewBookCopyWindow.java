@@ -1,5 +1,6 @@
 package ui;
 
+/*
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -95,3 +96,5 @@ public class AddNewBookCopyWindow extends Stage implements LibWindow {
 	}
 
 }
+
+*/
