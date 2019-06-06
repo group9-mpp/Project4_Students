@@ -30,13 +30,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 
-public class CheckoutWindow {
-	public static void setScreen(Start mainApp) {
+public class CheckoutWindow  extends BaseWindow{
+	 
 
-		mainApp.setScreen(getScreen(mainApp));
+	public CheckoutWindow(Start mainApp) {
+		super(mainApp);
+		// TODO Auto-generated constructor stub
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	protected Pane getScreen() {
 
 		VBox  vbox = new VBox();
 		
@@ -107,7 +109,7 @@ public class CheckoutWindow {
 					Alert alert = new Alert(Alert.AlertType.INFORMATION);
 					alert.setTitle("Checkout");
 					alert.setHeaderText("Checkout successful.");
-					alert.setContentText(checkoutRecord.toString());
+					//alert.setContentText(checkoutRecord.toString());
 					alert.showAndWait();
 
 					tableView.setItems(FXCollections.observableArrayList(checkoutRecord.getCheckoutEntries()));

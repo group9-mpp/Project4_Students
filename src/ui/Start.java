@@ -95,18 +95,19 @@ public class Start extends Application {
 		ObservableList<MenuItem> menus = optionsMenu.getItems();
 
 		if (SystemController.currentAuth != null) {
-			
+
 			switch (SystemController.currentAuth) {
 			case ADMIN:
-				menus.addAll(getMenbersMenu(), getAddMemberMenu());
+				menus.addAll(getMenbersMenu(), getAddBookMenu(), getAddBookCopyMenu(), getAddMemberMenu());
 				break;
-			case LIBRARIAN: 
-				menus.addAll(getBooksMenu(), getAddBookMenu(), getAddBookCopyMenu(),getCheckoutMenu(),getPrintCheckoutMenu(),getVerifyCheckoutMenu());
+			case LIBRARIAN:
+				menus.addAll(getBooksMenu(), getCheckoutMenu(), getPrintCheckoutMenu(), getVerifyCheckoutMenu());
 				break;
 			case BOTH:
 				menus.addAll(getMenbersMenu(), getAddMemberMenu());
-				menus.addAll(getBooksMenu(), getAddBookMenu(),getAddBookCopyMenu(),getCheckoutMenu(),getPrintCheckoutMenu(),getVerifyCheckoutMenu());
-				break; 
+				menus.addAll(getBooksMenu(), getAddBookMenu(), getAddBookCopyMenu(), getCheckoutMenu(),
+						getPrintCheckoutMenu(), getVerifyCheckoutMenu());
+				break;
 			}
 
 			menus.add(getLogoutMenu());
@@ -125,7 +126,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				AllMembersWindow.setScreen(mainApp);
+			 new 	AllMembersWindow(mainApp).setScreen();
 			}
 		});
 		return menu;
@@ -138,7 +139,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				AllBooksWindow.setScreen(mainApp);
+			new 	AllBooksWindow(mainApp).setScreen();
 			}
 		});
 		return menu;
@@ -153,7 +154,7 @@ public class Start extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 
-				LoginWindow.setScreen(mainApp);
+				new LoginWindow(mainApp).setScreen();
 			}
 		});
 		return login;
@@ -197,7 +198,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				AddMember.setScreen(mainApp);
+				new AddMember(mainApp).setScreen();
 			}
 		});
 		return menu;
@@ -210,7 +211,8 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				AddBook.setScreen(mainApp);
+				new AddBook(mainApp).setScreen();
+				;
 			}
 		});
 		return menu;
@@ -223,11 +225,12 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				AddBookCopy.setScreen(mainApp);
+				new AddBookCopy(mainApp).setScreen();
 			}
 		});
 		return menu;
 	}
+
 	/*
 	 * public static String CHECKOUT_BOOK = "Checkout A Book"; public static String
 	 * PRINT_CHECKOUT_RECORD = "Print Checkout Record"; public static String
@@ -240,7 +243,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				CheckoutWindow.setScreen(mainApp);
+				new CheckoutWindow(mainApp).setScreen();
 			}
 		});
 		return menu;
@@ -273,5 +276,4 @@ public class Start extends Application {
 		return menu;
 	}
 
-	
 }

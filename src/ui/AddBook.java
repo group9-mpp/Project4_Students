@@ -11,14 +11,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-public class AddBook {
+public class AddBook extends BaseWindow {
 
-	public static void setScreen(Start mainApp) {
-
-		mainApp.setScreen(getScreen(mainApp));
+	
+	public AddBook(Start mainApp) {
+		super(mainApp);
 	}
 
-	private static Pane getScreen(Start mainApp) {
+	protected  Pane getScreen(Start mainApp) {
 
 		GridPane grid = new GridPane();
 		grid.setId("top-container");

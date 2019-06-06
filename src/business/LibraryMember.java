@@ -39,4 +39,6 @@ final public class LibraryMember extends Person implements Serializable {
 	}
 
 	private static final long serialVersionUID = -2226197306790714013L;
+
+	
 }
