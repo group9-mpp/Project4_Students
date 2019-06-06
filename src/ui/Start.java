@@ -218,7 +218,6 @@ public class Start extends Application {
 			@Override
 			public void handle(ActionEvent e) {
 				new AddBook(mainApp).setScreen();
-				;
 			}
 		});
 		return menu;

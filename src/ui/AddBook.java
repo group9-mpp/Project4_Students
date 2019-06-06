@@ -1,5 +1,10 @@
 package ui;
 
+import java.util.List;
+
+import business.Book;
+import business.ControllerInterface;
+import business.SystemController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,12 +18,24 @@ import javafx.scene.layout.Pane;
 
 public class AddBook extends BaseWindow {
 
-	
 	public AddBook(Start mainApp) {
 		super(mainApp);
 	}
 
-	protected  Pane getScreen(Start mainApp) {
+	private boolean entriesAreValid(String isbn, String qty) {
+		return true;
+	}
+
+	private Book bookExistsWithISBN(String isbn, List<Book> listOfBooks) {
+		for (Book book : listOfBooks) {
+			if (book.getIsbn().equals(isbn)) {
+				return book;
+			}
+		}
+		return null;
+	}
+
+	protected Pane getScreen() {
 
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
@@ -31,24 +48,41 @@ public class AddBook extends BaseWindow {
 		TextField txtISBN = new TextField();
 		grid.add(txtISBN, 1, 0);
 
-		grid.add(new Label("Title"), 0, 1);
-		TextField txtTitle = new TextField();
-		grid.add(txtTitle, 1, 1);
-
-		grid.add(new Label("Quantity"), 0, 2);
+		grid.add(new Label("Quantity"), 0, 1);
 		TextField txtQty = new TextField();
-		grid.add(txtQty, 1, 2);
+		grid.add(txtQty, 1, 1);
 
 		Button btnSave = new Button("Save");
 
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Save");
-				alert.setHeaderText("Not implemented");
-				alert.setContentText("Kindly implement ");
-				alert.showAndWait();
+				try {
+					String isbn = txtISBN.getText().trim();
+					String qtyString = txtQty.getText().trim();
+					if (entriesAreValid(isbn, qtyString)) {
+						int qty = Integer.parseInt(txtQty.getText().trim());
+						ControllerInterface sc = new SystemController();
+						List<Book> listOfBooks = sc.allBooks();
+						Book book = bookExistsWithISBN(isbn, listOfBooks);
+						if (book != null) {
+							book.addCopy(qty);
+							sc.updateBook(book);
+
+							displayMessage(Alert.AlertType.INFORMATION, "Copy Added", "The Addition was successful");
+
+							new AllBooksWindow(mainApp).setScreen();
+
+						} else {
+							throw new Exception("Book Not Found!");
+						}
+					} else {
+						throw new Exception("Your inputs have errors");
+					}
+
+				} catch (Exception ex) {
+					displayMessage(Alert.AlertType.ERROR, "Error!!!", ex.getMessage());
+				}
 
 			}
 		});
