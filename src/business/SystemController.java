@@ -49,11 +49,6 @@ public class SystemController implements ControllerInterface {
 	public CheckoutRecord checkout(String id, String isbn) throws CheckoutException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, Book> booksMap = da.readBooksMap();
-		for (Map.Entry<String, Book> entry : booksMap.entrySet()) {
-		    Book value = entry.getValue();
-		    System.out.println("NumberBook: " + value.getNumCopies());
-		    // ...
-		}
 		HashMap<String,LibraryMember> memberMap = da.readMemberMap();
 		if(!memberMap.containsKey(id)) {
 			throw new CheckoutException("ID " + id + " not found");
@@ -82,30 +77,20 @@ public class SystemController implements ControllerInterface {
 		
 	}
 	
-public static void main(String[] args) {
-	SystemController c = new SystemController();
-	try {
-		String ret = "";
-		ret = File.separator;
-		ret = System.getProperty("file.separator");
-		ret = String.valueOf(File.separatorChar);
-		
-		System.out.println("Current OS file separator = " + ret);
-		
-		String filePath = "test" + ret + "dev2qa.txt";
-		
-		System.out.println("filePath = " + filePath);
-		
-		
-		CheckoutRecord checkoutRecord = c.checkout( "1002", "23-11451");
-		System.out.println("checkoutRecord: " + checkoutRecord);
+	// for testing
 	
-	} catch (CheckoutException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-		
-	}
+	/*
+	 * public static void main(String[] args) { SystemController c = new
+	 * SystemController(); try { System.out.println((9+10)/2);
+	 * 
+	 * CheckoutRecord checkoutRecord = c.checkout( "1002", "23-11451");
+	 * System.out.println("checkoutRecord: " + checkoutRecord);
+	 * 
+	 * } catch (CheckoutException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * }
+	 */
 	
 	
 }
