@@ -34,10 +34,7 @@ public class EditMember extends BaseWindow {
 		this.memberID = memberID;
 	}
 
-	public void setScreen() {
-		mainApp.setScreen(getScreen());
-	}
-
+	
 	
 	private void populateFields() {
 		ControllerInterface sc= new SystemController();

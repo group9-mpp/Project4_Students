@@ -61,8 +61,8 @@ public class AllMembersWindow extends BaseWindow {
 
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
-					EditMember mem = new EditMember(mainApp, newSelection.getMemberId());
-					mem.setScreen();
+					 new EditMember(mainApp, newSelection.getMemberId()).setScreen();
+
 				} else {
 
 				}
