@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+/*
 public class MainUIWindow extends Stage implements LibWindow {
 	public static final MainUIWindow INSTANCE = new MainUIWindow();
 	private boolean isInitialized = false;
@@ -118,3 +119,4 @@ public class MainUIWindow extends Stage implements LibWindow {
 	}
 
 }
+*/
