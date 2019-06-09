@@ -280,7 +280,7 @@ public class Start extends Application {
 		menu.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-
+				new VerifyOverdue(mainApp).setScreen();
 			}
 		});
 		return menu;

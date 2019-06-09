@@ -110,7 +110,7 @@ public class PrintCheckoutWindow extends BaseWindow {
 
 						List<CheckoutEntry> checkoutEntries = checkoutRecord.getCheckoutEntries();
 
-						libraryMemberText.setText(libraryMember.getFirstName() + " " + libraryMember.getLastName());
+						libraryMemberText.setText(libraryMember.getName());
 						if (checkoutEntries.size() == 0) {
 							libraryMemberText.setText(libraryMemberText.getText() + " - NO ENTRIES FOUND");
 						}

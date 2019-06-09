@@ -3,7 +3,6 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import business.Book;
 import business.exceptions.AddBookException;
@@ -129,7 +128,7 @@ public class SystemController implements ControllerInterface {
 		HashMap<String, Book> booksMap = da.readBooksMap();
 		HashMap<String, LibraryMember> memberMap = da.readMemberMap();
 		if (!memberMap.containsKey(id)) {
-			throw new CheckoutException("ID " + id + " not found");
+			throw new CheckoutException("Member ID " + id + " not found");
 		}
 		LibraryMember member = memberMap.get(id);
 		if (!booksMap.containsKey(isbn)) {
@@ -137,17 +136,20 @@ public class SystemController implements ControllerInterface {
 		}
 		Book book = booksMap.get(isbn);
 		if (!book.isAvailable()) {
-			throw new CheckoutException("ISBN " + isbn + " is not available");
+			throw new CheckoutException("Book with ISBN " + isbn + " is not available");
 		}
 
 		BookCopy bookCopy = book.getNextAvailableCopy();
 		bookCopy.changeAvailability();
-		book.updateCopies(bookCopy);
 		CheckoutRecord checkoutRecord = member.getCheckoutRecord();
 
 		CheckoutEntry checkoutEntry = new CheckoutEntry(bookCopy, checkoutRecord);
 		checkoutRecord.addCheckoutEntry(checkoutEntry);
 		member.setCheckoutRecord(checkoutRecord);
+		bookCopy.setCheckoutEntry(checkoutEntry);
+		
+		book.updateCopies(bookCopy);
+
 		da.updateMember(member);
 		da.updateBook(book);
 		return checkoutRecord;
