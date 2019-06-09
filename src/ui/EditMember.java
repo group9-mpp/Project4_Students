@@ -4,6 +4,7 @@ import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
+import business.exceptions.InvalidFieldException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,7 +18,6 @@ import javafx.scene.layout.Pane;
 
 public class EditMember extends BaseWindow {
 
-	private Start mainApp;
 	private LibraryMember member;
 	TextField txtMemberID = new TextField();
 	TextField txtFirstName = new TextField();
@@ -45,6 +45,17 @@ public class EditMember extends BaseWindow {
 		txtState.setText(memberAddress.getState());
 		txtZip.setText(memberAddress.getZip());
 
+	}
+
+	private boolean entriesAreValid( String firstName, String lastName, String street, String city,
+			String state, String zipcode, String phonenumber) {
+		if ( !firstName.isEmpty() && !lastName.isEmpty()
+				&& !street.isEmpty() && !city.isEmpty() && !state.isEmpty()
+				&& !zipcode.isEmpty() && !phonenumber.isEmpty()) {
+		
+			return true;
+		}
+		return false;
 	}
 
 	protected Pane getScreen() {
@@ -96,26 +107,28 @@ public class EditMember extends BaseWindow {
 					String state = txtState.getText().trim();
 					String zipcode = txtZip.getText().trim();
 					String phonenumber = txtPhone.getText().trim();
+					if (entriesAreValid(firstName, lastName, street, city, state, zipcode, phonenumber)) {
+						member.setFirstName(firstName);
+						member.setLastName(lastName);
+						member.setTelephone(phonenumber);
+						member.setAddress(new Address(street, city, state, zipcode));
 
-					member.setFirstName(firstName);
-					member.setLastName(lastName);
-					member.setTelephone(phonenumber);
-					member.setAddress(new Address(street, city, state, zipcode));
+						ControllerInterface sc = new SystemController();
+						sc.updateMember(member);
 
-					ControllerInterface sc = new SystemController();
-					sc.updateMember(member);
+						displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Updated Successfully");
 
-					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Updated Successfully");
-					System.out.println("here");
+						new AllMembersWindow(mainApp).setScreen();
 
-					new AllMembersWindow(mainApp).setScreen();
-					System.out.println("now");
+					} else {
+						throw new InvalidFieldException("Your inputs have errors");
 
+					}
+
+				} catch (InvalidFieldException emExc) {
+					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
 				} catch (Exception ex) {
 					displayMessage(Alert.AlertType.ERROR, "Error!", ex.getMessage());
-					System.out.println("error: ");
-					ex.printStackTrace();
-
 				}
 
 			}

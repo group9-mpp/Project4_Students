@@ -3,7 +3,6 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.activity.InvalidActivityException;
 
 import business.CheckoutEntry;
 import business.CheckoutRecord;
