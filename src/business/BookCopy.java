@@ -11,6 +11,7 @@ final public class BookCopy implements Serializable {
 	private Book book;
 	private int copyNum;
 	private boolean isAvailable;
+	private CheckoutEntry checkoutEntry = null;
 
 	BookCopy(Book book, int copyNum, boolean isAvailable) {
 		this.book = book;
@@ -33,6 +34,13 @@ final public class BookCopy implements Serializable {
 
 	public void changeAvailability() {
 		isAvailable = !isAvailable;
+	}
+	
+	public CheckoutEntry getCheckoutEntry() {
+		return checkoutEntry;
+	}
+	public void setCheckoutEntry(CheckoutEntry checkoutEntry) {
+		this.checkoutEntry = checkoutEntry;
 	}
 
 	@Override

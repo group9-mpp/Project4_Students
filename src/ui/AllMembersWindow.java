@@ -22,12 +22,9 @@ public class AllMembersWindow extends BaseWindow {
 
 	public AllMembersWindow(Start mainApp) {
 		super(mainApp);
-		// TODO Auto-generated constructor stub
 	}
 
-	 
-
-	protected  Pane getScreen() {
+	protected Pane getScreen() {
 
 		TableView<LibraryMember> tableView = new TableView<>();
 
@@ -61,10 +58,7 @@ public class AllMembersWindow extends BaseWindow {
 
 				Optional<ButtonType> result = alert.showAndWait();
 				if (result.get() == ButtonType.OK) {
-					 new EditMember(mainApp, newSelection.getMemberId()).setScreen();
-
-				} else {
-
+					new EditMember(mainApp, newSelection.getMemberId()).setScreen();
 				}
 			}
 		});

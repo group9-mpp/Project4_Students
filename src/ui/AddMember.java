@@ -4,7 +4,8 @@ import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
-import dataaccess.DataAccessFacade;
+import business.exceptions.AddMemberException;
+import business.exceptions.InvalidFieldException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,7 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
@@ -21,7 +21,17 @@ public class AddMember extends BaseWindow {
 
 	public AddMember(Start mainApp) {
 		super(mainApp);
-		// TODO Auto-generated constructor stub
+	}
+
+	private boolean entriesAreValid(String memberID, String firstName, String lastName, String street, String city,
+			String state, String zipcode, String phonenumber) {
+		
+		if (!memberID.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && !street.isEmpty() && !city.isEmpty()
+				&& !state.isEmpty() && !zipcode.isEmpty() && !phonenumber.isEmpty()) {
+
+			return true;
+		}
+		return false;
 	}
 
 	protected Pane getScreen() {
@@ -66,7 +76,7 @@ public class AddMember extends BaseWindow {
 		grid.add(new Label("Telephone"), 0, 7);
 		grid.add(txtPhone, 1, 7);
 
-		Button btnSave = new Button("Save");
+		Button btnSave = new Button("Add Member");
 
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -80,23 +90,29 @@ public class AddMember extends BaseWindow {
 					String state = txtState.getText().trim();
 					String zipcode = txtZip.getText().trim();
 					String phonenumber = txtPhone.getText().trim();
+					
+					if (entriesAreValid(memberID, firstName, lastName, street, city, state, zipcode, phonenumber)) {
 
-					Address memberAddress = new Address(street, city, state, zipcode);
-					LibraryMember newMember = new LibraryMember(memberID, firstName, lastName, phonenumber,
-							memberAddress);
-					ControllerInterface sc = new SystemController();
-					sc.saveNewMember(newMember);
+						Address memberAddress = new Address(street, city, state, zipcode);
+						LibraryMember newMember = new LibraryMember(memberID, firstName, lastName, phonenumber,
+								memberAddress);
+						ControllerInterface sc = new SystemController();
+						sc.saveNewMember(newMember);
 
-					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Added Successfully");
+						displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Added Successfully");
 
-					new AllMembersWindow(mainApp).setScreen();
+						new AllMembersWindow(mainApp).setScreen();
+					} else {
+						throw new InvalidFieldException("Your inputs have errors");
+					}
 
-				} catch (Exception ex) {
-
-					displayMessage(Alert.AlertType.ERROR, "Error!!!", ex.getMessage());
-
+				} catch (InvalidFieldException emExc) {
+					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
+				} catch (AddMemberException ex) {
+					displayMessage(Alert.AlertType.ERROR, "No Duplicates Allowed", ex.getMessage());
+				} catch (Exception es) {
+					displayMessage(Alert.AlertType.ERROR, "You have some errors", es.getMessage());
 				}
-
 			}
 		});
 

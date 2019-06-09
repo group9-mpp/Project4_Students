@@ -11,30 +11,30 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 
-import business.AddMemberException;
+import business.Author;
 import business.Book;
-import business.BookCopy;
-import business.BookNotFoundException;
 import business.LibraryMember;
-import dataaccess.DataAccessFacade.StorageType;
+import business.exceptions.AddBookException;
+import business.exceptions.AddMemberException;
 
 public class DataAccessFacade implements DataAccess {
 
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS, AUTHORS;
 	}
 
 	static String fileSeparator = "\\";
-	
+
 	static {
-		  String separator = File.separator;
-				  if(separator.equalsIgnoreCase("/")) {
-					  fileSeparator = separator;
-					  
-				  }
-	 }
-	  
-    public static final String OUTPUT_DIR = System.getProperty("user.dir") + fileSeparator +"src"+fileSeparator+ "dataaccess" +fileSeparator+"storage";
+		String separator = File.separator;
+		if (separator.equalsIgnoreCase("/")) {
+			fileSeparator = separator;
+
+		}
+	}
+
+	public static final String OUTPUT_DIR = System.getProperty("user.dir") + fileSeparator + "src" + fileSeparator
+			+ "dataaccess" + fileSeparator + "storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 
 	private void saveMember(LibraryMember member) {
@@ -42,6 +42,13 @@ public class DataAccessFacade implements DataAccess {
 		String memberId = member.getMemberId();
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);
+	}
+
+	private void saveBook(Book book) {
+		HashMap<String, Book> books = readBooksMap();
+		String isbn = book.getIsbn();
+		books.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, books);
 	}
 
 	// implement: other save operations
@@ -52,6 +59,16 @@ public class DataAccessFacade implements DataAccess {
 			saveMember(member);
 		} else {
 			throw new AddMemberException("A Member has this ID already!");
+		}
+	}
+
+	public void saveNewBook(Book book) throws AddBookException {
+		HashMap<String, Book> books = readBooksMap();
+		String isbn = book.getIsbn();
+		if (!books.containsKey(isbn)) {
+			saveBook(book);
+		} else {
+			throw new AddBookException("A Book has this ISBN already!");
 		}
 	}
 
@@ -67,6 +84,13 @@ public class DataAccessFacade implements DataAccess {
 		// Returns a Map with name/value pairs being
 		// memberId -> LibraryMember
 		return (HashMap<String, LibraryMember>) readFromStorage(StorageType.MEMBERS);
+	}
+
+	@SuppressWarnings("unchecked")
+	public HashMap<Integer, Author> readAuthorsMap() {
+		// Returns a Map with id/value pairs being
+		// authorid -> Author
+		return (HashMap<Integer, Author>) readFromStorage(StorageType.AUTHORS);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -90,6 +114,12 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, User> users = new HashMap<String, User>();
 		userList.forEach(user -> users.put(user.getId(), user));
 		saveToStorage(StorageType.USERS, users);
+	}
+
+	static void loadAuthorMap(List<Author> authorList) {
+		HashMap<Integer, Author> authors = new HashMap<Integer, Author>();
+		authorList.forEach(author -> authors.put(author.getID(), author));
+		saveToStorage(StorageType.AUTHORS, authors);
 	}
 
 	static void loadMemberMap(List<LibraryMember> memberList) {
@@ -176,18 +206,16 @@ public class DataAccessFacade implements DataAccess {
 
 	@Override
 	public void updateMember(LibraryMember member) {
-		// this method is called after a new checkout entry
+		// this method is called either after a new checkout entry
 		// has been created and added to a checkout record for a member.
+		// OR we edit a member's personal details
 		// So the member's record is saved.
 		saveMember(member);
 	}
 
 	@Override
 	public void updateBook(Book book) {
-		HashMap<String, Book> books = readBooksMap();
-		String isbn = book.getIsbn();
-		books.put(isbn, book);
-		saveToStorage(StorageType.BOOKS, books);
+		saveBook(book);
 
 	}
 

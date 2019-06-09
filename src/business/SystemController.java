@@ -3,9 +3,12 @@ package business;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import business.Book;
+import business.exceptions.AddBookException;
+import business.exceptions.AddMemberException;
+import business.exceptions.CheckoutException;
+import business.exceptions.LoginException;
 import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
@@ -71,6 +74,13 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
+	public void updateMember(LibraryMember member) {
+		DataAccessFacade da = new DataAccessFacade();
+		da.updateMember(member);
+		
+	}
+	
+	@Override
 	public List<Book> allBooks() {
 		DataAccess da = new DataAccessFacade();
 
@@ -83,6 +93,18 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
+	public List<Author> allAuthors() {
+		DataAccess da = new DataAccessFacade();
+
+		List<Author> retval = new ArrayList<>();
+
+		for (Author author : da.readAuthorsMap().values()) {
+			retval.add(author);
+		}
+		return retval;
+	}
+	
+	@Override
 	public List<String> allBookIds() {
 		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
@@ -90,6 +112,11 @@ public class SystemController implements ControllerInterface {
 		return retval;
 	}
 
+	public void saveBook(Book book) throws AddBookException {
+		DataAccess da = new DataAccessFacade();
+		da.saveNewBook(book);
+	}
+	
 	public void updateBook(Book book) {
 		DataAccess da = new DataAccessFacade();
 		da.updateBook(book);
@@ -101,7 +128,7 @@ public class SystemController implements ControllerInterface {
 		HashMap<String, Book> booksMap = da.readBooksMap();
 		HashMap<String, LibraryMember> memberMap = da.readMemberMap();
 		if (!memberMap.containsKey(id)) {
-			throw new CheckoutException("ID " + id + " not found");
+			throw new CheckoutException("Member ID " + id + " not found");
 		}
 		LibraryMember member = memberMap.get(id);
 		if (!booksMap.containsKey(isbn)) {
@@ -109,17 +136,20 @@ public class SystemController implements ControllerInterface {
 		}
 		Book book = booksMap.get(isbn);
 		if (!book.isAvailable()) {
-			throw new CheckoutException("ISBN " + isbn + " is not available");
+			throw new CheckoutException("Book with ISBN " + isbn + " is not available");
 		}
 
 		BookCopy bookCopy = book.getNextAvailableCopy();
 		bookCopy.changeAvailability();
-		book.updateCopies(bookCopy);
 		CheckoutRecord checkoutRecord = member.getCheckoutRecord();
 
 		CheckoutEntry checkoutEntry = new CheckoutEntry(bookCopy, checkoutRecord);
 		checkoutRecord.addCheckoutEntry(checkoutEntry);
 		member.setCheckoutRecord(checkoutRecord);
+		bookCopy.setCheckoutEntry(checkoutEntry);
+		
+		book.updateCopies(bookCopy);
+
 		da.updateMember(member);
 		da.updateBook(book);
 		return checkoutRecord;
@@ -136,5 +166,7 @@ public class SystemController implements ControllerInterface {
 	
         return  memberMap.get(id);
 	}
+
+	
 
 }

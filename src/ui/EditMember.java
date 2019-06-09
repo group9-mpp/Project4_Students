@@ -4,12 +4,12 @@ import business.Address;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
+import business.exceptions.InvalidFieldException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,8 +18,7 @@ import javafx.scene.layout.Pane;
 
 public class EditMember extends BaseWindow {
 
-	private Start mainApp;
-	private String memberID;
+	private LibraryMember member;
 	TextField txtMemberID = new TextField();
 	TextField txtFirstName = new TextField();
 	TextField txtLastName = new TextField();
@@ -31,14 +30,10 @@ public class EditMember extends BaseWindow {
 
 	public EditMember(Start mainApp, String memberID) {
 		super(mainApp);
-		this.memberID = memberID;
+		member = new SystemController().getMember(memberID);
 	}
 
-	
-	
 	private void populateFields() {
-		ControllerInterface sc= new SystemController();
-		LibraryMember member = sc.getMember(memberID);
 		txtMemberID.setText(member.getMemberId());
 		txtFirstName.setText(member.getFirstName());
 		txtLastName.setText(member.getLastName());
@@ -51,11 +46,19 @@ public class EditMember extends BaseWindow {
 		txtZip.setText(memberAddress.getZip());
 
 	}
-	
-	
+
+	private boolean entriesAreValid( String firstName, String lastName, String street, String city,
+			String state, String zipcode, String phonenumber) {
+		if ( !firstName.isEmpty() && !lastName.isEmpty()
+				&& !street.isEmpty() && !city.isEmpty() && !state.isEmpty()
+				&& !zipcode.isEmpty() && !phonenumber.isEmpty()) {
+		
+			return true;
+		}
+		return false;
+	}
 
 	protected Pane getScreen() {
-
 
 		txtMemberID.setDisable(true);
 
@@ -97,7 +100,6 @@ public class EditMember extends BaseWindow {
 			@Override
 			public void handle(ActionEvent e) {
 				try {
-//					String memberID = txtMemberID.getText().trim();
 					String firstName = txtFirstName.getText().trim();
 					String lastName = txtLastName.getText().trim();
 					String street = txtStreet.getText().trim();
@@ -105,23 +107,28 @@ public class EditMember extends BaseWindow {
 					String state = txtState.getText().trim();
 					String zipcode = txtZip.getText().trim();
 					String phonenumber = txtPhone.getText().trim();
+					if (entriesAreValid(firstName, lastName, street, city, state, zipcode, phonenumber)) {
+						member.setFirstName(firstName);
+						member.setLastName(lastName);
+						member.setTelephone(phonenumber);
+						member.setAddress(new Address(street, city, state, zipcode));
 
-					Address memberAddress = new Address(street, city, state, zipcode);
-					LibraryMember newMember = new LibraryMember(memberID, firstName, lastName, phonenumber,
-							memberAddress);
-					ControllerInterface sc = new SystemController();
-					sc.saveNewMember(newMember);
+						ControllerInterface sc = new SystemController();
+						sc.updateMember(member);
 
-					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Added Successfully");
+						displayMessage(Alert.AlertType.INFORMATION, "Edit Member", "Member Was Updated Successfully");
 
-					new AllMembersWindow(mainApp).setScreen();
+						new AllMembersWindow(mainApp).setScreen();
 
+					} else {
+						throw new InvalidFieldException("Your inputs have errors");
+
+					}
+
+				} catch (InvalidFieldException emExc) {
+					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
 				} catch (Exception ex) {
-
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-					alert.setTitle("Error!!!");
-					alert.setContentText(ex.getMessage());
-					alert.showAndWait();
+					displayMessage(Alert.AlertType.ERROR, "Error!", ex.getMessage());
 				}
 
 			}
