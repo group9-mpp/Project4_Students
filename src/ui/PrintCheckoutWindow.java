@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-
 import business.CheckoutEntry;
 import business.CheckoutRecord;
 import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
 import business.exceptions.CheckoutException;
+import business.exceptions.InvalidFieldException;
 import javafx.collections.FXCollections;
 
 import javafx.event.ActionEvent;
@@ -40,10 +40,10 @@ public class PrintCheckoutWindow extends BaseWindow {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected  Pane getScreen() {
+	protected Pane getScreen() {
 
-		VBox  vbox = new VBox();
-		
+		VBox vbox = new VBox();
+
 		GridPane grid = new GridPane();
 		grid.setId("top-container");
 		grid.setAlignment(Pos.CENTER);
@@ -70,56 +70,64 @@ public class PrintCheckoutWindow extends BaseWindow {
 		hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
 		hbBtn.getChildren().add(getRecord);
 		grid.add(hbBtn, 2, 4);
-		
+
 		Label libraryMemberText = new Label("");
 		grid.add(libraryMemberText, 2, 6);
 
 		vbox.getChildren().add(grid);
-		
+
 		TableView<CheckoutEntry> tableView = new TableView<>();
-		
+
 		List<Pair<String, String>> columns = new ArrayList<>();
 
 		columns.add(new Pair<String, String>("checkoutDate", "Checkout Date"));
 		columns.add(new Pair<String, String>("dueDate", "Due Date"));
 		columns.add(new Pair<String, String>("bookCopy", "Book Copy"));
 
-		
 		for (Pair<String, String> pair : columns) {
 
 			TableColumn<CheckoutEntry, String> column = new TableColumn<>(pair.getValue());
 			column.setCellValueFactory(new PropertyValueFactory<>(pair.getKey()));
 
 			column.prefWidthProperty().bind(tableView.widthProperty().divide(columns.size()));
-			
+
 			tableView.getColumns().add(column);
 		}
-		
+
 		vbox.getChildren().add(tableView);
-		
-		
+
 		getRecord.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
 				try {
-					tableView.setItems(null);
-					libraryMemberText.setText("");
-					ControllerInterface c = new SystemController();
-					LibraryMember libraryMember =  c.getCheckoutRecord(idTextField.getText().trim());
-					libraryMemberText.setText(libraryMember.getFirstName() + " " +libraryMember.getLastName());
-					CheckoutRecord checkoutRecord = libraryMember.getCheckoutRecord();
-					tableView.setItems(FXCollections.observableArrayList(checkoutRecord.getCheckoutEntries()));
+					String id = idTextField.getText().trim();
+					if (!id.isEmpty()) {
+						tableView.setItems(null);
+						libraryMemberText.setText("");
+						ControllerInterface c = new SystemController();
+						LibraryMember libraryMember = c.getCheckoutRecord(id);
+						CheckoutRecord checkoutRecord = libraryMember.getCheckoutRecord();
 
-					for (CheckoutEntry checkoutEntry : checkoutRecord.getCheckoutEntries()) {
-						System.out.println(checkoutEntry);
+						List<CheckoutEntry> checkoutEntries = checkoutRecord.getCheckoutEntries();
+
+						libraryMemberText.setText(libraryMember.getFirstName() + " " + libraryMember.getLastName());
+						if (checkoutEntries.size() == 0) {
+							libraryMemberText.setText(libraryMemberText.getText() + " - NO ENTRIES FOUND");
+						}
+						tableView.setItems(FXCollections.observableArrayList(checkoutEntries));
+
+						for (CheckoutEntry checkoutEntry : checkoutEntries) {
+							System.out.println(checkoutEntry);
+						}
+					} else {
+						throw new InvalidFieldException("You have an error in your input");
 					}
+
+				} catch (InvalidFieldException emExc) {
+					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
 				} catch (CheckoutException ex) {
 
-					Alert alert = new Alert(Alert.AlertType.ERROR);
-					alert.setTitle("Checkout Record");
-					alert.setHeaderText("Erros!!!");
-					alert.setContentText(ex.getMessage());
-					alert.showAndWait();
+					displayMessage(Alert.AlertType.ERROR, "Checkout Record Error", ex.getMessage());
 
 				}
 
