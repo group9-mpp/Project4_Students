@@ -1,4 +1,4 @@
-package business;
+package ui;
 
 import java.time.LocalDate;
 
