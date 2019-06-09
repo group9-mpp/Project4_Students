@@ -109,6 +109,8 @@ public class AddMember extends BaseWindow {
 					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
 				} catch (AddMemberException ex) {
 					displayMessage(Alert.AlertType.ERROR, "No Duplicates Allowed", ex.getMessage());
+				} catch (Exception es) {
+					displayMessage(Alert.AlertType.ERROR, "You have some errors", es.getMessage());
 				}
 			}
 		});

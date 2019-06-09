@@ -80,7 +80,9 @@ public class AddBook extends BaseWindow {
 				try {
 					String isbn = txtISBN.getText();
 					String title = txtTitle.getText();
-					String maxCheckoutLengthStr = cmbMaxCheckoutLength.getValue();
+					String maxCheckoutLengthStr = cmbMaxCheckoutLength.getValue() != null
+							? cmbMaxCheckoutLength.getValue()
+							: "";
 					String numberOfCopiesStr = txtNumOfCopies.getText();
 					Author author = cmbAuthor.getValue();
 
@@ -112,7 +114,6 @@ public class AddBook extends BaseWindow {
 					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
 				} catch (Exception exc) {
 					displayMessage(Alert.AlertType.ERROR, "Error!!!", exc.getMessage());
-					exc.printStackTrace();
 				}
 
 			}
