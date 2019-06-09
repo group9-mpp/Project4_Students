@@ -51,9 +51,9 @@ public class PrintCheckoutWindow extends BaseWindow {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Text scenetitle = new Text("Checkout Record");
-		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
-		grid.add(scenetitle, 0, 0, 2, 1);
+		//Text scenetitle = new Text("Checkout Record");
+		//scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
+		//grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label id = new Label("Library Member ID:");
 		grid.add(id, 1, 1);

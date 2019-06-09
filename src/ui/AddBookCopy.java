@@ -56,7 +56,7 @@ public class AddBookCopy extends BaseWindow {
 		TextField txtQty = new TextField();
 		grid.add(txtQty, 1, 1);
 
-		Button btnSave = new Button("Save");
+		Button btnSave = new Button("Add Copy");
 
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 			@Override

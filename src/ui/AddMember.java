@@ -25,10 +25,10 @@ public class AddMember extends BaseWindow {
 
 	private boolean entriesAreValid(String memberID, String firstName, String lastName, String street, String city,
 			String state, String zipcode, String phonenumber) {
-		if (!memberID.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty()
-				&& !street.isEmpty() && !city.isEmpty() && !state.isEmpty()
-				&& !zipcode.isEmpty() && !phonenumber.isEmpty()) {
 		
+		if (!memberID.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && !street.isEmpty() && !city.isEmpty()
+				&& !state.isEmpty() && !zipcode.isEmpty() && !phonenumber.isEmpty()) {
+
 			return true;
 		}
 		return false;
@@ -76,7 +76,7 @@ public class AddMember extends BaseWindow {
 		grid.add(new Label("Telephone"), 0, 7);
 		grid.add(txtPhone, 1, 7);
 
-		Button btnSave = new Button("Save");
+		Button btnSave = new Button("Add Member");
 
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -90,6 +90,7 @@ public class AddMember extends BaseWindow {
 					String state = txtState.getText().trim();
 					String zipcode = txtZip.getText().trim();
 					String phonenumber = txtPhone.getText().trim();
+					
 					if (entriesAreValid(memberID, firstName, lastName, street, city, state, zipcode, phonenumber)) {
 
 						Address memberAddress = new Address(street, city, state, zipcode);

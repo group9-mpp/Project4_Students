@@ -198,7 +198,7 @@ public class Start extends Application {
 
 		root.getChildren().add(pane);
 
-		Scene scene = new Scene(root, 800, 600);
+		Scene scene = new Scene(root, 600, 500);
 
 		setMenus();
 

@@ -22,8 +22,9 @@ public class BaseWindow {
 	}
 	
 	protected   void displayMessage(AlertType messageType, String title, String content) {
+		
 		Alert alert = new Alert(messageType);
-		alert.setTitle(title);
+		alert.setHeaderText(title);
 		alert.setContentText(content);
 		alert.showAndWait();
 

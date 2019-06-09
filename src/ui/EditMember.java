@@ -116,7 +116,7 @@ public class EditMember extends BaseWindow {
 						ControllerInterface sc = new SystemController();
 						sc.updateMember(member);
 
-						displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Updated Successfully");
+						displayMessage(Alert.AlertType.INFORMATION, "Edit Member", "Member Was Updated Successfully");
 
 						new AllMembersWindow(mainApp).setScreen();
 

@@ -39,9 +39,9 @@ public class LoginWindow extends BaseWindow {
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		Text scenetitle = new Text("Login");
-		scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
-		grid.add(scenetitle, 0, 0, 2, 1);
+		//Text scenetitle = new Text("Login");
+		//scenetitle.setFont(Font.font("Harlow Solid Italic", FontWeight.NORMAL, 20)); // Tahoma
+		//grid.add(scenetitle, 0, 0, 2, 1);
 
 		Label userName = new Label("User Name:");
 		grid.add(userName, 0, 1);
