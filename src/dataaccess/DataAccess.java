@@ -2,11 +2,11 @@ package dataaccess;
 
 import java.util.HashMap;
 
-import business.AddBookException;
-import business.AddMemberException;
 import business.Author;
 import business.Book;
 import business.LibraryMember;
+import business.exceptions.AddBookException;
+import business.exceptions.AddMemberException;
 
 public interface DataAccess { 
 	public HashMap<String,Book> readBooksMap();

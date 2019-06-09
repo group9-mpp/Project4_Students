@@ -5,6 +5,7 @@ import java.util.List;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import business.exceptions.InvalidFieldException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -23,7 +24,10 @@ public class AddBookCopy extends BaseWindow {
 	}
 
 	private boolean entriesAreValid(String isbn, String qty) {
-		return true;
+		if (isbn != null && isbn != "" && qty != null && qty != "") {
+			return true;
+		}
+		return false;
 	}
 
 	private Book bookExistsWithISBN(String isbn, List<Book> listOfBooks) {
@@ -77,9 +81,11 @@ public class AddBookCopy extends BaseWindow {
 							throw new Exception("Book Not Found!");
 						}
 					} else {
-						throw new Exception("Your inputs have errors");
+						throw new InvalidFieldException("Your inputs have errors");
 					}
 
+				} catch (InvalidFieldException emExc) {
+					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
 				} catch (Exception ex) {
 					displayMessage(Alert.AlertType.ERROR, "Error!!!", ex.getMessage());
 				}

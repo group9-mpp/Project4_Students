@@ -11,13 +11,13 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 
-import business.AddBookException;
-import business.AddMemberException;
 import business.Author;
 import business.Book;
 import business.BookCopy;
-import business.BookNotFoundException;
 import business.LibraryMember;
+import business.exceptions.AddBookException;
+import business.exceptions.AddMemberException;
+import business.exceptions.BookNotFoundException;
 import dataaccess.DataAccessFacade.StorageType;
 
 public class DataAccessFacade implements DataAccess {

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import business.CheckoutEntry;
-import business.CheckoutException;
 import business.CheckoutRecord;
 import business.ControllerInterface;
 import business.SystemController;
+import business.exceptions.CheckoutException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

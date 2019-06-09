@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import business.Book;
+import business.exceptions.AddBookException;
+import business.exceptions.AddMemberException;
+import business.exceptions.CheckoutException;
+import business.exceptions.LoginException;
 import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;

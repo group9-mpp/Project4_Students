@@ -3,11 +3,12 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import business.AddBookException;
 import business.Author;
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
+import business.exceptions.AddBookException;
+import business.exceptions.InvalidFieldException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -28,7 +29,13 @@ public class AddBook extends BaseWindow {
 
 	private boolean entriesAreValid(String isbn, String qty, String maxCheckoutLengthStr, String numberOfCopiesStr,
 			Author author) {
-		return true;
+		if (isbn != null && isbn != "" && qty != null && qty != "" && maxCheckoutLengthStr != null
+				&& maxCheckoutLengthStr != "" && numberOfCopiesStr != null && numberOfCopiesStr != ""
+				&& author != null) {
+			return true;
+		}
+
+		return false;
 	}
 
 	protected Pane getScreen() {
@@ -72,13 +79,13 @@ public class AddBook extends BaseWindow {
 			@Override
 			public void handle(ActionEvent e) {
 				try {
-					String isbn = txtISBN.getText().trim();
-					String title = txtTitle.getText().trim();
-					String maxCheckoutLengthStr = cmbMaxCheckoutLength.getValue().trim();
-					String numberOfCopiesStr = txtNumOfCopies.getText().trim();
+					String isbn = txtISBN.getText();
+					String title = txtTitle.getText();
+					String maxCheckoutLengthStr = cmbMaxCheckoutLength.getValue();
+					String numberOfCopiesStr = txtNumOfCopies.getText();
 					Author author = cmbAuthor.getValue();
 
-					if (entriesAreValid(isbn, title, maxCheckoutLengthStr, numberOfCopiesStr, author)) {
+					if (entriesAreValid(isbn.trim(), title.trim(), maxCheckoutLengthStr.trim(), numberOfCopiesStr.trim(), author)) {
 						int maxCheckoutLength = Integer.parseInt(maxCheckoutLengthStr);
 						int numOfCopies = Integer.parseInt(numberOfCopiesStr);
 
@@ -91,18 +98,22 @@ public class AddBook extends BaseWindow {
 						}
 
 						sc.saveBook(book);
-						
+
 						displayMessage(Alert.AlertType.INFORMATION, "Book Added", "The Addition was successful");
 
 						new AllBooksWindow(mainApp).setScreen();
 					} else {
-						throw new Exception("An Error Occured. Please try again");
+						throw new InvalidFieldException("Some fields have invalid data");
 					}
 
 				} catch (AddBookException ex) {
 					displayMessage(Alert.AlertType.ERROR, "No Duplicates Allowed", ex.getMessage());
-				} catch(Exception exc) {
+				} catch (InvalidFieldException emExc) {
+					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
+				}
+				catch (Exception exc) {
 					displayMessage(Alert.AlertType.ERROR, "Error!!!", exc.getMessage());
+				exc.printStackTrace();
 				}
 
 			}

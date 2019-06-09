@@ -3,6 +3,10 @@ package business;
 import java.util.List;
 
 import business.Book;
+import business.exceptions.AddBookException;
+import business.exceptions.AddMemberException;
+import business.exceptions.CheckoutException;
+import business.exceptions.LoginException;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 

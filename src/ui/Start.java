@@ -100,18 +100,18 @@ public class Start extends Application {
 			switch (SystemController.currentAuth) {
 			case ADMIN:
 				menus.addAll(getMenbersMenu(), getAddBookMenu(), getAddBookCopyMenu(), getAddMemberMenu());
-				lblAuth.setText("Welcome, Administrator");
+				lblAuth.setText("Welcome, Administrator. Select an action from the menu.");
 				break;
 			case LIBRARIAN:
 				menus.addAll(getBooksMenu(), getCheckoutMenu(), getPrintCheckoutMenu(), getVerifyCheckoutMenu());
-				lblAuth.setText("Welcome, Librarian");
+				lblAuth.setText("Welcome, Librarian. Select an action from the menu.");
 
 				break;
 			case BOTH:
 				menus.addAll(getMenbersMenu(), getAddMemberMenu());
 				menus.addAll(getBooksMenu(), getAddBookMenu(), getAddBookCopyMenu(), getCheckoutMenu(),
 						getPrintCheckoutMenu(), getVerifyCheckoutMenu());
-				lblAuth.setText("Welcome, Super Administrator");
+				lblAuth.setText("Welcome, Super User. Select an action from the menu.");
 				break;
 			}
 
