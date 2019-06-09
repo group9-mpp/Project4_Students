@@ -29,8 +29,7 @@ public class AddBook extends BaseWindow {
 
 	private boolean entriesAreValid(String isbn, String qty, String maxCheckoutLengthStr, String numberOfCopiesStr,
 			Author author) {
-		if (isbn != null && isbn != "" && qty != null && qty != "" && maxCheckoutLengthStr != null
-				&& maxCheckoutLengthStr != "" && numberOfCopiesStr != null && numberOfCopiesStr != ""
+		if (!isbn.isEmpty() && !qty.isEmpty() && !maxCheckoutLengthStr.isEmpty() && !numberOfCopiesStr.isEmpty()
 				&& author != null) {
 			return true;
 		}
@@ -85,7 +84,8 @@ public class AddBook extends BaseWindow {
 					String numberOfCopiesStr = txtNumOfCopies.getText();
 					Author author = cmbAuthor.getValue();
 
-					if (entriesAreValid(isbn.trim(), title.trim(), maxCheckoutLengthStr.trim(), numberOfCopiesStr.trim(), author)) {
+					if (entriesAreValid(isbn.trim(), title.trim(), maxCheckoutLengthStr.trim(),
+							numberOfCopiesStr.trim(), author)) {
 						int maxCheckoutLength = Integer.parseInt(maxCheckoutLengthStr);
 						int numOfCopies = Integer.parseInt(numberOfCopiesStr);
 
@@ -110,10 +110,9 @@ public class AddBook extends BaseWindow {
 					displayMessage(Alert.AlertType.ERROR, "No Duplicates Allowed", ex.getMessage());
 				} catch (InvalidFieldException emExc) {
 					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
-				}
-				catch (Exception exc) {
+				} catch (Exception exc) {
 					displayMessage(Alert.AlertType.ERROR, "Error!!!", exc.getMessage());
-				exc.printStackTrace();
+					exc.printStackTrace();
 				}
 
 			}

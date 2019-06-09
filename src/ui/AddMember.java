@@ -5,6 +5,7 @@ import business.ControllerInterface;
 import business.LibraryMember;
 import business.SystemController;
 import business.exceptions.AddMemberException;
+import business.exceptions.InvalidFieldException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -20,6 +21,17 @@ public class AddMember extends BaseWindow {
 
 	public AddMember(Start mainApp) {
 		super(mainApp);
+	}
+
+	private boolean entriesAreValid(String memberID, String firstName, String lastName, String street, String city,
+			String state, String zipcode, String phonenumber) {
+		if (!memberID.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty()
+				&& !street.isEmpty() && !city.isEmpty() && !state.isEmpty()
+				&& !zipcode.isEmpty() && !phonenumber.isEmpty()) {
+		
+			return true;
+		}
+		return false;
 	}
 
 	protected Pane getScreen() {
@@ -78,17 +90,23 @@ public class AddMember extends BaseWindow {
 					String state = txtState.getText().trim();
 					String zipcode = txtZip.getText().trim();
 					String phonenumber = txtPhone.getText().trim();
+					if (entriesAreValid(memberID, firstName, lastName, street, city, state, zipcode, phonenumber)) {
 
-					Address memberAddress = new Address(street, city, state, zipcode);
-					LibraryMember newMember = new LibraryMember(memberID, firstName, lastName, phonenumber,
-							memberAddress);
-					ControllerInterface sc = new SystemController();
-					sc.saveNewMember(newMember);
+						Address memberAddress = new Address(street, city, state, zipcode);
+						LibraryMember newMember = new LibraryMember(memberID, firstName, lastName, phonenumber,
+								memberAddress);
+						ControllerInterface sc = new SystemController();
+						sc.saveNewMember(newMember);
 
-					displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Added Successfully");
+						displayMessage(Alert.AlertType.INFORMATION, "Added Member", "Member Was Added Successfully");
 
-					new AllMembersWindow(mainApp).setScreen();
+						new AllMembersWindow(mainApp).setScreen();
+					} else {
+						throw new InvalidFieldException("Your inputs have errors");
+					}
 
+				} catch (InvalidFieldException emExc) {
+					displayMessage(Alert.AlertType.ERROR, "Please fill all fields correctly!", emExc.getMessage());
 				} catch (AddMemberException ex) {
 					displayMessage(Alert.AlertType.ERROR, "No Duplicates Allowed", ex.getMessage());
 				}

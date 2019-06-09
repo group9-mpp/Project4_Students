@@ -24,10 +24,10 @@ public class AddBookCopy extends BaseWindow {
 	}
 
 	private boolean entriesAreValid(String isbn, String qty) {
-		if (isbn != null && isbn != "" && qty != null && qty != "") {
-			return true;
+		if (isbn.isEmpty() || qty.isEmpty()) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	private Book bookExistsWithISBN(String isbn, List<Book> listOfBooks) {
