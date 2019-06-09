@@ -4,4 +4,3 @@ bin/*
 .settings
 .settings/*
 .classpath
-src/dataaccess/storage/*
