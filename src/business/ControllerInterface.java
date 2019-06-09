@@ -22,5 +22,6 @@ public interface ControllerInterface {
 	public void updateBook(Book book);
 	public CheckoutRecord checkout(String id, String isbn)  throws CheckoutException;
 	public LibraryMember getCheckoutRecord(String id) throws CheckoutException;
+	public List<BookCopy> verifyOverdue(String isbn) throws CheckoutException;
 	
 }

@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,8 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
@@ -167,6 +170,53 @@ public class SystemController implements ControllerInterface {
         return  memberMap.get(id);
 	}
 
-	
+	@Override
+	public List<BookCopy> verifyOverdue(String isbn) throws CheckoutException {
+		List<BookCopy> overDueCopies = new ArrayList<BookCopy>();
+		List<Book> listOfBooks = allBooks();
+		Book book = bookExistsWithISBN(isbn, listOfBooks);
+		if (book != null) {
+			BookCopy[] copies = book.getCopies();
+			List<BookCopy> checkedOutCopies = new ArrayList<BookCopy>();
+			
+			for (BookCopy copy : copies) {
+				if (!copy.isAvailable()) {
+					checkedOutCopies.add(copy);
+				}
+			}
+			if (checkedOutCopies.size() > 0) {
+				for (BookCopy copy : checkedOutCopies) {
+					// get checkout entry that has this copy and check due date
+//					if due date is before today, add to overdueCheckOuts,
+					CheckoutEntry checkoutEntry = copy.getCheckoutEntry();
+					LocalDate dueDate = checkoutEntry.getDueDate();
+					if(dueDate.isBefore(LocalDate.now())) {
+						overDueCopies.add(copy);
+					}									
+				}
+				if (overDueCopies.size() > 0) {
+					return overDueCopies;
 
+				} else {
+					throw new CheckoutException("No checkout of this book is currently overdue.");
+				}
+			} else {
+				throw new CheckoutException("No copy of this book is currently checked out.");
+
+			}
+		} else {
+			throw new CheckoutException("Book Not Found!");
+		}
+		
+	}
+
+	
+	private Book bookExistsWithISBN(String isbn, List<Book> listOfBooks) {
+		for (Book book : listOfBooks) {
+			if (book.getIsbn().equals(isbn)) {
+				return book;
+			}
+		}
+		return null;
+	}
 }

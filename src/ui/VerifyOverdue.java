@@ -40,14 +40,7 @@ public class VerifyOverdue extends BaseWindow {
 		super(mainApp);
 	}
 
-	private Book bookExistsWithISBN(String isbn, List<Book> listOfBooks) {
-		for (Book book : listOfBooks) {
-			if (book.getIsbn().equals(isbn)) {
-				return book;
-			}
-		}
-		return null;
-	}
+
 
 	protected Pane getScreen() {
 
@@ -112,48 +105,24 @@ public class VerifyOverdue extends BaseWindow {
 					if (!isbn.isEmpty()) {
 						tableView.setItems(null);
 						resultText.setText("");
-						ControllerInterface sc = new SystemController();
-						List<Book> listOfBooks = sc.allBooks();
-						Book book = bookExistsWithISBN(isbn, listOfBooks);
-						if (book != null) {
-							BookCopy[] copies = book.getCopies();
-							List<BookCopy> checkedOutCopies = new ArrayList<BookCopy>();
-
-							for (BookCopy copy : copies) {
-								if (!copy.isAvailable()) {
-									checkedOutCopies.add(copy);
-								}
-							}
-							if (checkedOutCopies.size() > 0) {
+						ControllerInterface sc = new SystemController();							
+							List<BookCopy> checkedOutCopies = sc.verifyOverdue(isbn);
 								List<OverdueView> overdueCheckOuts = new ArrayList<OverdueView>();
-
 								for (BookCopy copy : checkedOutCopies) {
 									// get checkout entry that has this copy and check due date
-//									if due date is before today, add to overdueCheckOuts,
-									CheckoutEntry checkoutEntry = copy.getCheckoutEntry();
-									LocalDate dueDate = checkoutEntry.getDueDate();
-									if(dueDate.isBefore(LocalDate.now())) {
-										overdueCheckOuts.add(new OverdueView(isbn, book.getTitle(), copy.getCopyNum()
+									CheckoutEntry checkoutEntry = copy.getCheckoutEntry();								
+										overdueCheckOuts.add(new OverdueView(isbn, copy.getBook().getTitle(), copy.getCopyNum()
 												, checkoutEntry.getCheckoutRecord().getOwner().getName(), checkoutEntry.getDueDate()));
-									}									
+									
 								}
 								if (overdueCheckOuts.size() > 0) {
-									// display record
-									
 									tableView.setItems(FXCollections.observableArrayList(overdueCheckOuts));
 
 								} else {
 									displayMessage(Alert.AlertType.INFORMATION, "No Overdue Copies",
 											"No checkout of this book is currently overdue.");
 								}
-							} else {
-								displayMessage(Alert.AlertType.INFORMATION, "No Checkout Record",
-										"No copy of this book is currently checked out.");
-
-							}
-						} else {
-							throw new Exception("Book Not Found!");
-						}
+						
 					} else {
 						throw new InvalidFieldException("You have an error in your input");
 					}
