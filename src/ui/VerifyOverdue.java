@@ -1,15 +1,12 @@
 package ui;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.util.List;
 
-import business.Book;
 import business.BookCopy;
 import business.CheckoutEntry;
 import business.ControllerInterface;
-import business.OverdueView;
 import business.SystemController;
 import business.exceptions.InvalidFieldException;
 import javafx.collections.FXCollections;
@@ -29,9 +26,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.util.Pair;
 
 public class VerifyOverdue extends BaseWindow {

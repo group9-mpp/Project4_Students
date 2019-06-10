@@ -13,9 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
+
 
 public class LoginWindow extends BaseWindow {
 	public LoginWindow(Start mainApp) {
