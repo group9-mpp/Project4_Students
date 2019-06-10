@@ -1,6 +1,7 @@
 package dataaccess;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,6 +17,8 @@ import business.Book;
 import business.LibraryMember;
 import business.exceptions.AddBookException;
 import business.exceptions.AddMemberException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class DataAccessFacade implements DataAccess {
 
@@ -33,8 +36,10 @@ public class DataAccessFacade implements DataAccess {
 		}
 	}
 
-	public static final String OUTPUT_DIR = System.getProperty("user.dir") + fileSeparator + "src" + fileSeparator
-			+ "dataaccess" + fileSeparator + "storage";
+	//public static final String OUTPUT_DIR =  "\\src\\dataaccess\\storage";
+	
+	//public static final String OUTPUT_DIR = System.getProperty("user.dir") + fileSeparator + "src" + fileSeparator
+	//		+ "dataaccess" + fileSeparator + "storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 
 	private void saveMember(LibraryMember member) {
@@ -129,13 +134,23 @@ public class DataAccessFacade implements DataAccess {
 	}
 
 	static void saveToStorage(StorageType type, Object ob) {
+		
+		
+		
+		
 		ObjectOutputStream out = null;
 		try {
-			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
+			Path path = FileSystems.getDefault().getPath(type.toString());
+			 
 			out = new ObjectOutputStream(Files.newOutputStream(path));
 			out.writeObject(ob);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setHeaderText(e.getMessage());
+			alert.setContentText(e.getStackTrace().toString());
+			alert.showAndWait();
 		} finally {
 			if (out != null) {
 				try {
@@ -150,7 +165,7 @@ public class DataAccessFacade implements DataAccess {
 		ObjectInputStream in = null;
 		Object retVal = null;
 		try {
-			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
+			Path path = FileSystems.getDefault().getPath(type.toString());
 			in = new ObjectInputStream(Files.newInputStream(path));
 			retVal = in.readObject();
 		} catch (Exception e) {

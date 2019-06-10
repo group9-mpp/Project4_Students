@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import business.Book;
 import business.exceptions.AddBookException;
 import business.exceptions.AddMemberException;
 import business.exceptions.CheckoutException;
@@ -14,8 +13,6 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
-import javafx.collections.FXCollections;
-import javafx.scene.control.Alert;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;

@@ -1,6 +1,9 @@
 package ui;
 
+import java.io.File;
+
 import business.SystemController;
+import dataaccess.TestData;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,6 +49,12 @@ public class Start extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+
+		File file = new File("AUTHORS");
+
+		if (file.exists() == false) {
+			TestData.main(null);
+		}
 
 		primStage = primaryStage;
 		primStage.setTitle("The Library System - GROUP 9");
@@ -99,7 +108,8 @@ public class Start extends Application {
 
 			switch (SystemController.currentAuth) {
 			case ADMIN:
-				mainMenus.addAll(getAddMemberMenu(), getAddBookMenu(), getAddBookCopyMenu(), getMembersMenu(), getBooksMenu());
+				mainMenus.addAll(getAddMemberMenu(), getAddBookMenu(), getAddBookCopyMenu(), getMembersMenu(),
+						getBooksMenu());
 				lblAuth.setText("Welcome, Administrator. Select an action from the menu.");
 				break;
 			case LIBRARIAN:
@@ -109,7 +119,8 @@ public class Start extends Application {
 				break;
 			case BOTH:
 				mainMenus.addAll(getAddMemberMenu(), getAddBookMenu(), getAddBookCopyMenu());
-				mainMenus.addAll(getCheckoutMenu(), getPrintCheckoutMenu(), getVerifyCheckoutMenu(), getMembersMenu(),getBooksMenu());
+				mainMenus.addAll(getCheckoutMenu(), getPrintCheckoutMenu(), getVerifyCheckoutMenu(), getMembersMenu(),
+						getBooksMenu());
 				lblAuth.setText("Welcome, Super User. Select an action from the menu.");
 				break;
 			}

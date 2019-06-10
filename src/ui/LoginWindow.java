@@ -81,6 +81,9 @@ public class LoginWindow extends BaseWindow {
 				} catch (LoginException ex) {
 					displayMessage(Alert.AlertType.ERROR, "Login failed","Error! " + ex.getMessage());
 				}
+				catch (Exception ex) {
+					displayMessage(Alert.AlertType.ERROR, "Login failed","Error! " + ex.getMessage());
+				}
 			}
 		});
 
