@@ -1,5 +1,6 @@
 package ui;
 
+
 import java.util.List;
 
 import business.Book;
@@ -56,7 +57,7 @@ public class AddBookCopy extends BaseWindow {
 		TextField txtQty = new TextField();
 		grid.add(txtQty, 1, 1);
 
-		Button btnSave = new Button("Add Copy");
+		Button btnSave = new Button("Save");
 
 		btnSave.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -66,6 +67,11 @@ public class AddBookCopy extends BaseWindow {
 					String qtyString = txtQty.getText().trim();
 					if (entriesAreValid(isbn, qtyString)) {
 						int qty = Integer.parseInt(txtQty.getText().trim());
+						
+						if(qty<1) {
+							throw new Exception("Quantity must not less than one");
+						}
+						
 						ControllerInterface sc = new SystemController();
 						List<Book> listOfBooks = sc.allBooks();
 						Book book = bookExistsWithISBN(isbn, listOfBooks);

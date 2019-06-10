@@ -33,6 +33,8 @@ import javafx.util.Pair;
 
 public class CheckoutWindow extends BaseWindow {
 
+	TextField isbnField = new TextField();
+	
 	public CheckoutWindow(Start mainApp) {
 		super(mainApp);
 		// TODO Auto-generated constructor stub
@@ -45,6 +47,7 @@ public class CheckoutWindow extends BaseWindow {
 		return true;
 	}
 
+	
 	protected Pane getScreen() {
 
 		VBox vbox = new VBox();
@@ -72,7 +75,7 @@ public class CheckoutWindow extends BaseWindow {
 		grid.add(isbnLabel, 1, 2);
 		grid.setGridLinesVisible(false);
 
-		TextField isbnField = new TextField();
+		
 		grid.add(isbnField, 2, 2);
 
 		Button checkout = new Button("Checkout");
@@ -137,6 +140,10 @@ public class CheckoutWindow extends BaseWindow {
 		});
 
 		return vbox;
+	}
+
+	public void setISBN(String isbn) {
+		isbnField.setText(isbn);
 	}
 
 }

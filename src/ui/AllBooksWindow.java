@@ -2,13 +2,17 @@ package ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import business.Book;
 import business.ControllerInterface;
 import business.SystemController;
 import javafx.collections.FXCollections;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -45,13 +49,24 @@ public class AllBooksWindow  extends BaseWindow {
 		tableView.setItems(FXCollections.observableArrayList(ci.allBooks()));
 
 		tableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-			/*if (newSelection != null) {
-				Alert alert = new Alert(Alert.AlertType.WARNING);
-				alert.setTitle("Edit Book ");
-				alert.setHeaderText("Not implemented");
-				alert.setContentText(newSelection.toString());
-				alert.showAndWait();
-			}*/
+			
+			if (newSelection != null) {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Book");
+				alert.setHeaderText(newSelection.getTitle());
+				alert.setContentText("Do you want to checkout this book?");
+
+				Optional<ButtonType> result = alert.showAndWait();
+				if (result.get() == ButtonType.OK) {
+					
+					CheckoutWindow chw = new CheckoutWindow(mainApp);
+					chw.setISBN(newSelection.getIsbn());
+					
+					chw.setScreen();
+					
+				}
+			}
+			
 		});
 
 		return new VBox(tableView);
